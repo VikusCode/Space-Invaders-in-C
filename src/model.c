@@ -8,6 +8,8 @@
 #define WIDTH getmaxx(stdscr)
 
 int** plateau = NULL;
+int score = 0;
+
 
 void init_plateau(){
     initscr();
