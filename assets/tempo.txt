@@ -1,0 +1,1 @@
+Pour l'instant, pas besoin de mettre quoique ce soit ici, sauf pour des sprites de vaisseaux ou des petits trucs pour alimenter la vue SDL3
