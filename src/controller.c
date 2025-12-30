@@ -1,0 +1,1 @@
+// ici a mettre quand on clique sur le bouton jouer game->currView = JEU c'est la ou je vais mettre les cliques sur les boutons depuis la page d'accueil
