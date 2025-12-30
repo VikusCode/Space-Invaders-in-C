@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <stdbool.h>
+
 // --- Constantes ---
 #define MAX_BULLETS 10
 #define MAX_ENEMY_BULLETS 20
@@ -35,9 +37,13 @@ typedef struct {
     Enemy enemies[ENEMY_ROWS * ENEMY_COLS];
     
     int score;
-    int game_over;
+    int game_over; // 1 perdu, 0 en cours
+    int nb_lives; //nombre de vie restant
     int enemy_direction;
     int enemy_move_counter;
+
+    bool isSDL;
+    bool isNC; //savoir si c'est sdl ou NC ca
 
     VueState currView;
     
@@ -45,7 +51,6 @@ typedef struct {
     int height;
 } GameState;
 
-// --- Fonctions ---
 void init_model(GameState *game, int width, int height);
 void update_bullets(GameState *game);
 void update_enemies(GameState *game);

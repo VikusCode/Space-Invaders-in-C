@@ -10,6 +10,7 @@
 
 int init_sdl_view(GameState *game);
 void draw_sdl_view(GameState *game);
+void draw_game_view(GameState *game);
 void close_sdl_view();
 
 #endif

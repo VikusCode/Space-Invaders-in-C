@@ -101,8 +101,6 @@ void draw_game_view(GameState *game) {
 }
 
 void draw_sdl_view(GameState *game) {
-    
-    // On choisit quoi dessiner dans le buffer
     if (game->currView == ACCUEIL) {
         draw_menu_view();
     } else {
