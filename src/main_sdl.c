@@ -28,10 +28,12 @@ int main(int argc, char *argv[]) {
         handle_event(&game, &running); 
         
         if (game.currView == JEU && !game.game_over) {
-            update_bullets(&game);      
-            update_enemies(&game);      
-            enemy_shoot(&game);         
-            check_collisions(&game);    
+            if (!game.pause) { // ca sert a faire en sorte que le jeu s'arrete pas mais soit en pause
+                update_bullets(&game);      
+                update_enemies(&game);      
+                enemy_shoot(&game);         
+                check_collisions(&game);
+            }   
         }
         
         draw_sdl_view(&game);

@@ -16,9 +16,16 @@ typedef struct {
     int active;
 } Bullet;
 
+typedef enum {
+    SQUID,
+    CRABS,
+    OCTOPUS
+} EnnemyType;
+
 typedef struct {
     int x, y;
     int alive;
+    EnnemyType type;
 } Enemy;
 
 typedef struct {
@@ -27,7 +34,8 @@ typedef struct {
 
 typedef enum {
     ACCUEIL, 
-    JEU
+    JEU, 
+    MENU_JEU
 } VueState;
 
 typedef struct {
@@ -44,6 +52,8 @@ typedef struct {
 
     bool isSDL;
     bool isNC; //savoir si c'est sdl ou NC ca
+
+    bool pause; //si true alors = pause ca sert pour le afficher le menu dans le in game
 
     VueState currView;
     

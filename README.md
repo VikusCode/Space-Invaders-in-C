@@ -12,3 +12,7 @@ dans handle_event dna scontroller.c j'ai un deuxieme parametre *running a la bas
 
 si tu veux tester tout mon code pour l'instant tu peux faire cette commande:
 gcc src/model.c src/view_sdl.c src/controller.c src/main_sdl.c -o game_sdl -lSDL3 puis ./game_sdl
+
+update ce qui a change:
+la vitesse des ennemis, le compteur de vie dans sdl est bon, le game over aussi, j'ai ajoute un enum pour le type de l'ennemi en face pour l'affichage qui est beaucoup plus beau, le vaisseau aussi, la page d'accueil est a jour et bien belle
+j'ai enleve le escape de la page d'accueil car maintenant y a un bouton quitter j'ai laisse la touche entree dans la page d'accueil malgre le bouton, j'ai ajoute un ecran de pause dans le jeu seul probleme, le bouton quitter doit me f  aire aller vers ma page d'accueil malheuresement j'y arrive pas c'est pour ca ya des // en dessous de running = 0
