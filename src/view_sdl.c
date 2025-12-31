@@ -369,6 +369,20 @@ void draw_game_view(GameState *game) {
         }
     }
 
+    SDL_SetRenderDrawColor(rend, 0, 255, 0, 255);
+    
+    for (int i = 0; i < MAX_SHIELD_BRICKS; i++) {
+        // On ne dessine que les briques actives (celles qui n'ont pas été touchées)
+        if (game->shields[i].active) {
+            SDL_FRect brick_rect = {
+                game->shields[i].x, 
+                game->shields[i].y, 
+                1.0f, 1.0f  // Taille d'une brique = 1 case de la grille
+            };
+            SDL_RenderFillRect(rend, &brick_rect);
+        }
+    }
+
     // --- DESSIN DU JOUEUR (Il manquait dans ton code !) ---
     SDL_SetRenderDrawColor(rend, 0, 255, 0, 255);
     // On utilise le sprite du joueur défini plus haut

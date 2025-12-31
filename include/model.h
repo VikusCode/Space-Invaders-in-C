@@ -9,6 +9,10 @@
 #define ENEMY_ROWS 4
 #define ENEMY_COLS 10
 #define ENEMY_SPACING 2
+#define MAX_SHIELDS 4
+#define SHIELD_W 5
+#define SHIELD_H 4
+#define MAX_SHIELD_BRICKS (MAX_SHIELDS * SHIELD_W * SHIELD_H)
 
 // --- Structures ---
 typedef struct {
@@ -21,6 +25,11 @@ typedef enum {
     CRABS,
     OCTOPUS
 } EnnemyType;
+
+typedef struct {
+    int x, y;
+    int active; // 1 = brique présente, 0 = détruite
+} ShieldBrick;
 
 typedef struct {
     int x, y;
@@ -43,6 +52,7 @@ typedef struct {
     Bullet bullets[MAX_BULLETS];
     Bullet enemy_bullets[MAX_ENEMY_BULLETS];
     Enemy enemies[ENEMY_ROWS * ENEMY_COLS];
+    ShieldBrick shields[MAX_SHIELD_BRICKS];
     
     int score;
     int game_over; // 1 perdu, 0 en cours

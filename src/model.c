@@ -59,6 +59,47 @@ void init_model(GameState *game, int width, int height) {
             }
         }
     }
+
+    int shape[4][5] = {    // J'ai mis 4 et 5 en dur pour être sûr que ça marche
+        {0, 1, 1, 1, 0}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 0, 1, 1}
+    };
+
+    // 2. Init à 0
+    for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
+
+    // 3. Calculs
+    float spacing = width / 5.0f; 
+    
+    // CORRECTION ICI : On change le nom de la variable pour éviter le conflit
+    float shield_start_y = height - 7.0f; 
+
+    int brick_idx = 0;
+
+    for (int s = 0; s < MAX_SHIELDS; s++) {
+        float shield_start_x = (s + 1) * spacing - (SHIELD_W / 2.0f);
+
+        for (int r = 0; r < SHIELD_H; r++) {
+            for (int c = 0; c < SHIELD_W; c++) {
+                
+                // Attention : On vérifie qu'on ne dépasse pas le tableau shape
+                // Si SHIELD_H vaut 4 dans le .h, c'est bon.
+                if (shape[r][c] == 1) {
+                    if (brick_idx < MAX_SHIELD_BRICKS) {
+                        game->shields[brick_idx].x = shield_start_x + c;
+                        
+                        // CORRECTION ICI : On utilise la nouvelle variable
+                        game->shields[brick_idx].y = shield_start_y + r; 
+                        
+                        game->shields[brick_idx].active = 1;
+                        brick_idx++;
+                    }
+                }
+            }
+        }
+    }
     
     game->game_over = 0;
     game->enemy_direction = 1;
@@ -127,10 +168,23 @@ void update_enemies(GameState *game) {
     
     for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
         if (game->enemies[i].alive) {
-            if ((game->enemy_direction > 0 && game->enemies[i].x >= game->width - 1) ||
-                (game->enemy_direction < 0 && game->enemies[i].x <= 0)) {
-                should_descend = 1;
-                break;
+            
+            // A. COLLISION AVEC LE BOUCLIER (Le bouclier meurt, pas le joueur)
+            for (int s = 0; s < MAX_SHIELD_BRICKS; s++) {
+                if (game->shields[s].active) {
+                    // Si l'ennemi marche sur la brique de bouclier
+                    if (game->enemies[i].x == game->shields[s].x && 
+                        game->enemies[i].y == game->shields[s].y) {
+                        
+                        game->shields[s].active = 0; // Le bouclier est détruit !
+                    }
+                }
+            }
+
+            // B. COLLISION AVEC LE JOUEUR (GAME OVER)
+            // C'est seulement si l'ennemi atteint la hauteur du vaisseau
+            if (game->enemies[i].y >= game->player.y) {
+                game->game_over = 1;
             }
         }
     }
@@ -151,6 +205,47 @@ void update_enemies(GameState *game) {
 }
 
 void check_collisions(GameState *game) {
+    // --- 1. BALLES JOUEUR vs BOUCLIERS ---
+    // (Si on tire sur nos propres boucliers, on les casse !)
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        if (game->bullets[i].active) {
+            for (int s = 0; s < MAX_SHIELD_BRICKS; s++) {
+                if (game->shields[s].active) {
+                    // Collision simple point vs point (ou rectangle vs point)
+                    // On ajoute une petite marge (>= et <=) pour être sûr de toucher
+                    if (game->bullets[i].x >= game->shields[s].x && 
+                        game->bullets[i].x <  game->shields[s].x + 1 &&
+                        game->bullets[i].y >= game->shields[s].y && 
+                        game->bullets[i].y <  game->shields[s].y + 1) {
+                        
+                        game->shields[s].active = 0; // Détruit la brique
+                        game->bullets[i].active = 0; // Détruit la balle
+                        break; // Une balle ne casse qu'une brique à la fois
+                    }
+                }
+            }
+        }
+    }
+
+    // --- 2. BALLES ENNEMIES vs BOUCLIERS ---
+    for (int i = 0; i < MAX_ENEMY_BULLETS; i++) {
+        if (game->enemy_bullets[i].active) {
+            for (int s = 0; s < MAX_SHIELD_BRICKS; s++) {
+                if (game->shields[s].active) {
+                    // Même logique
+                    if (game->enemy_bullets[i].x >= game->shields[s].x && 
+                        game->enemy_bullets[i].x <  game->shields[s].x + 1 &&
+                        game->enemy_bullets[i].y >= game->shields[s].y && 
+                        game->enemy_bullets[i].y <  game->shields[s].y + 1) {
+                        
+                        game->shields[s].active = 0; // Détruit la brique
+                        game->enemy_bullets[i].active = 0; // Détruit la balle
+                        break;
+                    }
+                }
+            }
+        }
+    }
     // Joueur tire sur Ennemi
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (game->bullets[i].active) {
