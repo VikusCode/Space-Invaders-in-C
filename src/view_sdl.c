@@ -105,51 +105,59 @@ void draw_instructions(GameState *game) {
     float text_size = 0.3f;     // Taille du texte standard
     float title_size = 0.5f;    // Taille du titre
     
+    // --- NOUVELLES POSITIONS (PLUS HAUTES) ---
+    float y_title = 2.0f;           // Titre tout en haut
+    float y_start_cols = 8.0f;      // Les colonnes commencent bien plus haut
+    
+    float col_left_x = 5.0f;        // Marge gauche
+    float col_right_x = cx + 2.0f;  // Marge droite (juste après le milieu)
+
+
     // --- TITRE ---
-    // Centré en haut
     SDL_SetRenderDrawColor(rend, 255, 255, 0, 255); // Jaune
-    draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2, 5.0f, title_size);
-
-    // --- LE BUT DU JEU ---
-    SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); // Blanc
-    // "VOTRE BUT EST DE TUER LES ENNEMIS AU COMPLET"
-    draw_text("VOTRE BUT EST DE TUER", 15.0f, 12.0f, text_size);
-    draw_text("LES ENNEMIS AU COMPLET", 15.0f, 15.0f, text_size);
+    draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2, y_title, title_size);
 
 
-    // --- DEUX COLONNES ---
-    float col_left_x = 5.0f;           // Marge gauche
-    float col_right_x = cx + 2.0f;     // Marge droite (juste après le milieu)
-    float y_start = 22.0f;             // Hauteur de départ des colonnes
-
-    // COLONNE GAUCHE : LES TOUCHES
+    // --- COLONNE GAUCHE : LES COMMANDES ---
     SDL_SetRenderDrawColor(rend, 0, 255, 255, 255); // Cyan
-    draw_text("ESPACE POUR TIRER", col_left_x, y_start, text_size);
+    float y_cmd = y_start_cols;
     
-    draw_text("Q POUR GAUCHE", col_left_x, y_start + 4.0f, text_size);
-    draw_text("D POUR DROITE", col_left_x, y_start + 8.0f, text_size);
+    draw_text("ESPACE POUR TIRER", col_left_x, y_cmd, text_size);
+    y_cmd += 4.0f;
+    draw_text("Q POUR GAUCHE", col_left_x, y_cmd, text_size);
+    y_cmd += 4.0f;
+    draw_text("D POUR DROITE", col_left_x, y_cmd, text_size);
 
 
-    // COLONNE DROITE : LES VIES
-    // "Vous avez 3 vies ! Ne les gaspillez pas !"
-    SDL_SetRenderDrawColor(rend, 255, 100, 100, 255); // Rouge clair
+    // --- COLONNE DROITE : BUT ET VIES ---
+    float y_right = y_start_cols;
+
+    // 1. LE BUT DU JEU (Blanc)
+    SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); 
+    draw_text("VOTRE BUT EST DE TUER", col_right_x, y_right, text_size);
+    y_right += 3.0f;
+    draw_text("LES ENNEMIS AU COMPLET", col_right_x, y_right, text_size);
     
-    float cursor = draw_text("VOUS AVEZ ", col_right_x, y_start, text_size);
-    // On dessine le chiffre 3 avec draw_number car ta police n'a pas de chiffres
-    draw_number(3, cursor, y_start, text_size); 
-    draw_text(" VIES", cursor + 3.0f, y_start, text_size);
+    y_right += 6.0f; // Espace un peu réduit pour être sûr que ça passe
 
-    draw_text("NE LES GASPILLEZ PAS", col_right_x, y_start + 4.0f, text_size);
+    // 2. LES VIES (Rouge clair)
+    SDL_SetRenderDrawColor(rend, 255, 100, 100, 255); 
+    float cursor = draw_text("VOUS AVEZ ", col_right_x, y_right, text_size);
+    draw_number(3, cursor, y_right, text_size); 
+    draw_text(" VIES", cursor + 3.0f, y_right, text_size);
+    y_right += 3.0f;
+    draw_text("NE LES GASPILLEZ PAS", col_right_x, y_right, text_size);
 
 
     // --- PIED DE PAGE ---
-    // "Bonne chance terrien !"
-    SDL_SetRenderDrawColor(rend, 0, 255, 0, 255); // Vert
-    // Centrage approximatif
+    // On le descend un peu plus bas (height - 8 au lieu de height - 12)
+    
+    // "Bonne chance terrien !" (Vert)
+    SDL_SetRenderDrawColor(rend, 0, 255, 0, 255);
     draw_text("BONNE CHANCE TERRIEN", cx - (20 * 4 * text_size) / 2, game->height - 8.0f, text_size);
     
-    // Bouton retour discret
-    SDL_SetRenderDrawColor(rend, 100, 100, 100, 255); // Gris
+    // Bouton retour (Gris)
+    SDL_SetRenderDrawColor(rend, 100, 100, 100, 255); 
     draw_text("ENTREE POUR RETOUR", cx - 12.0f, game->height - 4.0f, 0.25f);
 }
 
