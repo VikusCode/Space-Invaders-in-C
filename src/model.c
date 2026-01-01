@@ -1,117 +1,125 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../include/model.h"
+#include "../include/view_ncurses.h"
 
 void init_model(GameState *game, int width, int height) {
-    game->width = width;
-    game->height = height;
-    
-    // --- INIT JOUEUR ---
-    game->player.x = width / 2;
-    game->player.y = height - 2;
-    game->nb_lives = 3;
-    game->score = 0;
-    game->currView = ACCUEIL; // Ou JEU pour tester direct
+    if (game->isSDL == 1) {
+        game->width = width;
+        game->height = height;
+        
+        // --- INIT JOUEUR ---
+        game->player.x = width / 2;
+        game->player.y = height - 2;
+        game->nb_lives = 3;
+        game->score = 0;
+        game->currView = ACCUEIL; 
 
-    // --- INIT BALLES ---
-    for (int i = 0; i < MAX_BULLETS; i++) game->bullets[i].active = 0;
-    for (int i = 0; i < MAX_ENEMY_BULLETS; i++) game->enemy_bullets[i].active = 0;
+        // --- INIT BALLES ---
+        for (int i = 0; i < MAX_BULLETS; i++) game->bullets[i].active = 0;
+        for (int i = 0; i < MAX_ENEMY_BULLETS; i++) game->enemy_bullets[i].active = 0;
 
-    // --- INIT ENNEMIS (DYNAMIQUE) ---
-    
-    // 1. Calcul des marges (10% de chaque côté)
-    int margin = width / 10; 
-    
-    // 2. Largeur disponible pour les ennemis (80% du centre)
-    int usable_width = width - (2 * margin);
-    
-    int dynamic_spacing = usable_width / (ENEMY_COLS);
-    
-    if (dynamic_spacing < 2) dynamic_spacing = 2;
+        // --- INIT ENNEMIS (DYNAMIQUE) ---
+        
+        // 1. Calcul des marges (10% de chaque côté)
+        int margin = width / 10; 
+        
+        // 2. Largeur disponible pour les ennemis (80% du centre)
+        int usable_width = width - (2 * margin);
+        
+        int dynamic_spacing = usable_width / (ENEMY_COLS);
+        
+        if (dynamic_spacing < 2) dynamic_spacing = 2;
 
-    int total_enemy_block_width = (ENEMY_COLS - 1) * dynamic_spacing;
-    int start_x = (width - total_enemy_block_width) / 2;
-    
-    // 5. Hauteur de départ (comme vu précédemment, ex: 15% du haut)
-    int start_y = height / 6; 
+        int total_enemy_block_width = (ENEMY_COLS - 1) * dynamic_spacing;
+        int start_x = (width - total_enemy_block_width) / 2;
+        
+        // 5. Hauteur de départ (comme vu précédemment, ex: 15% du haut)
+        int start_y = height / 6; 
 
-    for (int row = 0; row < ENEMY_ROWS; row++) {
-        for (int col = 0; col < ENEMY_COLS; col++) {
-            int idx = row * ENEMY_COLS + col;
-            
-            
-            // On utilise le start_x calculé + l'espacement dynamique
-            game->enemies[idx].x = start_x + (col * dynamic_spacing);
-            
-            // On utilise le start_y (height/6) + l'espacement vertical (2)
-            game->enemies[idx].y = start_y + (row * 2); 
-            
-            
-            game->enemies[idx].alive = 1;
+        for (int row = 0; row < ENEMY_ROWS; row++) {
+            for (int col = 0; col < ENEMY_COLS; col++) {
+                int idx = row * ENEMY_COLS + col;
+                
+                
+                // On utilise le start_x calculé + l'espacement dynamique
+                game->enemies[idx].x = start_x + (col * dynamic_spacing);
+                
+                // On utilise le start_y (height/6) + l'espacement vertical (2)
+                game->enemies[idx].y = start_y + (row * 2); 
+                
+                
+                game->enemies[idx].alive = 1;
 
-            // 3. Assignation des types
-            if (row == 0) {
-                game->enemies[idx].type = SQUID;
-            } else if (row == 1 || row == 2) {
-                game->enemies[idx].type = CRABS;
-            } else {
-                game->enemies[idx].type = OCTOPUS;
+                // 3. Assignation des types
+                if (row == 0) {
+                    game->enemies[idx].type = SQUID;
+                } else if (row == 1 || row == 2) {
+                    game->enemies[idx].type = CRABS;
+                } else {
+                    game->enemies[idx].type = OCTOPUS;
+                }
             }
         }
-    }
 
-    int shape[4][5] = {    // J'ai mis 4 et 5 en dur pour être sûr que ça marche
-        {0, 1, 1, 1, 0}, 
-        {1, 1, 1, 1, 1}, 
-        {1, 1, 1, 1, 1}, 
-        {1, 1, 0, 1, 1}
-    };
+        int shape[4][5] = {    // J'ai mis 4 et 5 en dur pour être sûr que ça marche
+            {0, 1, 1, 1, 0}, 
+            {1, 1, 1, 1, 1}, 
+            {1, 1, 1, 1, 1}, 
+            {1, 1, 0, 1, 1}
+        };
 
-    // 2. Init à 0
-    for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
+        // 2. Init à 0
+        for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
 
-    // 3. Calculs
-    float spacing = width / 5.0f; 
-    
-    // CORRECTION ICI : On change le nom de la variable pour éviter le conflit
-    float shield_start_y = height - 7.0f; 
+        // 3. Calculs
+        float spacing = width / 5.0f; 
+        
+        // CORRECTION ICI : On change le nom de la variable pour éviter le conflit
+        float shield_start_y = height - 7.0f; 
 
-    int brick_idx = 0;
+        int brick_idx = 0;
 
-    for (int s = 0; s < MAX_SHIELDS; s++) {
-        float shield_start_x = (s + 1) * spacing - (SHIELD_W / 2.0f);
+        for (int s = 0; s < MAX_SHIELDS; s++) {
+            float shield_start_x = (s + 1) * spacing - (SHIELD_W / 2.0f);
 
-        for (int r = 0; r < SHIELD_H; r++) {
-            for (int c = 0; c < SHIELD_W; c++) {
-                
-                // Attention : On vérifie qu'on ne dépasse pas le tableau shape
-                // Si SHIELD_H vaut 4 dans le .h, c'est bon.
-                if (shape[r][c] == 1) {
-                    if (brick_idx < MAX_SHIELD_BRICKS) {
-                        game->shields[brick_idx].x = shield_start_x + c;
-                        
-                        // CORRECTION ICI : On utilise la nouvelle variable
-                        game->shields[brick_idx].y = shield_start_y + r; 
-                        
-                        game->shields[brick_idx].active = 1;
-                        brick_idx++;
+            for (int r = 0; r < SHIELD_H; r++) {
+                for (int c = 0; c < SHIELD_W; c++) {
+                    
+                    // Attention : On vérifie qu'on ne dépasse pas le tableau shape
+                    // Si SHIELD_H vaut 4 dans le .h, c'est bon.
+                    if (shape[r][c] == 1) {
+                        if (brick_idx < MAX_SHIELD_BRICKS) {
+                            game->shields[brick_idx].x = shield_start_x + c;
+                            
+                            // CORRECTION ICI : On utilise la nouvelle variable
+                            game->shields[brick_idx].y = shield_start_y + r; 
+                            
+                            game->shields[brick_idx].active = 1;
+                            brick_idx++;
+                        }
                     }
                 }
             }
         }
+        
+        game->game_over = 0;
+        game->enemy_direction = 1;
+        game->enemy_move_counter = 0;
     }
-    
-    game->game_over = 0;
-    game->enemy_direction = 1;
-    game->enemy_move_counter = 0;
+    // else if (game->isNC) {
+    //     init_ncurses_view();
+    // }
 }
 
 void player_shoot(GameState *game) {
+    if (game->canShoot == 1) return ;
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!game->bullets[i].active) {
             game->bullets[i].x = game->player.x;
             game->bullets[i].y = game->player.y - 1;
             game->bullets[i].active = 1;
+            game->canShoot = 1;
             break;
         }
     }
@@ -128,7 +136,10 @@ void update_bullets(GameState *game) {
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (game->bullets[i].active) {
             game->bullets[i].y--;
-            if (game->bullets[i].y < 0) game->bullets[i].active = 0;
+            if (game->bullets[i].y < 0) {
+                game->bullets[i].active = 0;
+                game->canShoot = 0;
+            }
         }
     }
     for (int i = 0; i < MAX_ENEMY_BULLETS; i++) {
@@ -160,44 +171,77 @@ void enemy_shoot(GameState *game) {
 }
 
 void update_enemies(GameState *game) {
+    int cpt;
+    for (int i = 0; i < ENEMY_COLS * ENEMY_ROWS; i++) {
+        if (game->enemies[i].alive == 0) {
+            cpt++;
+        }
+        if (cpt == ENEMY_COLS * ENEMY_ROWS) {
+            printf("Gagne");
+        }
+    }
+    // 1. GESTION VITESSE
     game->enemy_move_counter++;
-    if (game->enemy_move_counter < 25) return; // au plus tu augmentes au plus ils sont lents les ennemis
+    if (game->enemy_move_counter < 25) return; 
     
     game->enemy_move_counter = 0;
-    int should_descend = 0;
     
+    int should_descend = 0; // On initialise à Faux
+
     for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
         if (game->enemies[i].alive) {
+            // On regarde où l'ennemi serait à la prochaine étape
+            int next_x = game->enemies[i].x + game->enemy_direction;
+
+            // Si on va à droite et qu'on touche le bord droit
+            if (game->enemy_direction == 1 && next_x >= game->width) {
+                should_descend = 1;
+                break; // Un seul ennemi suffit pour faire tourner tout le groupe
+            }
             
-            // A. COLLISION AVEC LE BOUCLIER (Le bouclier meurt, pas le joueur)
+            // Si on va à gauche et qu'on touche le bord gauche
+            if (game->enemy_direction == -1 && next_x < 0) {
+                should_descend = 1;
+                break;
+            }
+        }
+    }
+    // ---------------------------------------------------------
+
+
+    // 2. COLLISIONS (Boucliers et Joueur)
+    for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
+        if (game->enemies[i].alive) {
+            // A. COLLISION BOUCLIER
             for (int s = 0; s < MAX_SHIELD_BRICKS; s++) {
                 if (game->shields[s].active) {
-                    // Si l'ennemi marche sur la brique de bouclier
                     if (game->enemies[i].x == game->shields[s].x && 
                         game->enemies[i].y == game->shields[s].y) {
-                        
-                        game->shields[s].active = 0; // Le bouclier est détruit !
+                        game->shields[s].active = 0; 
+                        game->enemies[i].alive = 1;
                     }
                 }
             }
-
-            // B. COLLISION AVEC LE JOUEUR (GAME OVER)
-            // C'est seulement si l'ennemi atteint la hauteur du vaisseau
+            // B. COLLISION JOUEUR
             if (game->enemies[i].y >= game->player.y) {
                 game->game_over = 1;
             }
         }
     }
     
+    // 3. APPLICATION DU MOUVEMENT
     if (should_descend) {
+        // CAS A : On a touché un mur -> On descend et on inverse
         game->enemy_direction *= -1;
         for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
             if (game->enemies[i].alive) {
                 game->enemies[i].y++;
+                // Sécurité Game Over si on descend trop bas
                 if (game->enemies[i].y >= game->player.y) game->game_over = 1;
             }
         }
     } else {
+        // CAS B : Tout droit
         for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
             if (game->enemies[i].alive) game->enemies[i].x += game->enemy_direction;
         }
@@ -220,6 +264,7 @@ void check_collisions(GameState *game) {
                         
                         game->shields[s].active = 0; // Détruit la brique
                         game->bullets[i].active = 0; // Détruit la balle
+                        game->canShoot = 0; // le joueur peut tirer
                         break; // Une balle ne casse qu'une brique à la fois
                     }
                 }
@@ -255,7 +300,10 @@ void check_collisions(GameState *game) {
                     game->bullets[i].y == game->enemies[j].y) {
                     game->enemies[j].alive = 0;
                     game->bullets[i].active = 0;
-                    game->score += 10;
+                    game->canShoot = 0; //le joueur peut tirer
+                    if (game->enemies[j].type == CRABS) game->score += 10;
+                    else if (game->enemies[j].type == SQUID) game->score += 40;
+                    else game->score += 20;
                 }
             }
         }

@@ -67,6 +67,8 @@ typedef struct {
 
     VueState currView;
     
+    int canShoot; //pour tirer une seule balle par une seule
+
     int width;
     int height;
 } GameState;

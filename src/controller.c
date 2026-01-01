@@ -1,5 +1,3 @@
-// ici a mettre quand on clique sur le bouton jouer game->currView = JEU c'est la ou je vais mettre les cliques sur les boutons depuis la page d'accueil
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL3/SDL.h>
@@ -66,8 +64,8 @@ void handle_event(GameState *game, int *running) {
                     // CLIC SUR QUITTER
                     else if (mouse_x >= btn_x && mouse_x <= (btn_x + btn_w) &&
                              mouse_y >= quit_y && mouse_y <= (quit_y + btn_h)) {
-                        *running = 0; 
-                        // draw_menu_view(game); // il faut j'arrive a fiare ene sorte que le boutton quitter du menu pause amene vers la page d'raccueil 
+                        game->currView = ACCUEIL;
+                        draw_menu_view(game); // Au lieu de quitter le jeu ca retourne au menu principal
                     }
                 }
             }

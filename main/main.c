@@ -2,24 +2,32 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "../include/model.h"
 #include "../include/controller.h"
 #include "../include/view_sdl.h"
+#include "../include/view_ncurses.h"
 
-// le main la est un test juste du sdl il faudra le concateneer avec le NC
 
-// Définition de la grille logique (doit être cohérent avec view_sdl.c et model.c)
 #define GRID_WIDTH 80
 #define GRID_HEIGHT 40
 
-int main(int argc, char *argv[]) {
-    srand(time(NULL));
+int main(int argc, char const *argv[])
+{
+    char a;
+    printf("Version SDL ou NC ? s pour SDL, n pour NCurse \n");
+    scanf("%c", &a);
+
     GameState game;
-    
-    init_model(&game, GRID_WIDTH, GRID_HEIGHT);
+
+    if (a == 's' || a == 'S') {
+    srand(time(NULL));
+    game.isNC = 0;
     game.isSDL = 1; 
+    init_model(&game, GRID_WIDTH, GRID_HEIGHT);
     
-    if (!init_sdl_view(&game)) return 1;
+    
+    if (!init_sdl_view(&game)) return EXIT_FAILURE;
     
     int running = 1;
 
@@ -31,16 +39,20 @@ int main(int argc, char *argv[]) {
             if (!game.pause) { // ca sert a faire en sorte que le jeu s'arrete pas mais soit en pause
                 update_bullets(&game);      
                 update_enemies(&game);      
-                enemy_shoot(&game);         
+                // enemy_shoot(&game); // je l'ai enleve car je voulais teste si les ennemis detruisaient les boucliers        
                 check_collisions(&game);
             }   
         }
         
         draw_sdl_view(&game);
         
-        SDL_Delay(16);
+        SDL_Delay(2); // au plus c'esdt bas plus ca trace
+    }
+    close_sdl_view();
+    } else if (a == 'n' || a == 'N') {
+        game.isSDL = 0;
+        game.isNC = 1;
     }
 
-    close_sdl_view();
-    return 0;
+    return EXIT_SUCCESS;
 }
