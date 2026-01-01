@@ -10,7 +10,6 @@ static SDL_Renderer *rend = NULL;
 
 void convert_mouse_coordinates(float *x, float *y) {
     if (rend) {
-        // Cette fonction magique de SDL3 fait la conversion Pixels -> Grille Logique
         SDL_RenderCoordinatesFromWindow(rend, *x, *y, x, y);
     }
 }
@@ -54,47 +53,145 @@ int init_sdl_view(GameState *game) {
 }
 
 void draw_menu_view(GameState *game) {
-    // 1. Fond bleu nuit
     SDL_SetRenderDrawColor(rend, 10, 10, 40, 255);
     SDL_RenderClear(rend);
 
     // --- DIMENSIONS ---
-    float btn_w = 24.0f;
-    float btn_h = 6.0f;  // Un peu moins haut pour en mettre deux
+    float btn_w = 26.0f; // Un peu plus large pour le mot "INSTRUCTIONS"
+    float btn_h = 6.0f;
     float gap = 2.0f;    // Espace entre les boutons
     
-    // Calcul pour centrer le BLOC des deux boutons
-    float total_h = (btn_h * 2) + gap;
+    // Calcul pour 3 BOUTONS maintenant
+    float total_h = (btn_h * 3) + (gap * 2);
+    
     float start_y = (game->height - total_h) / 2;
     float btn_x = (game->width - btn_w) / 2;
 
-    // Position Y des boutons
+    // Positions Y des 3 boutons
     float play_y = start_y;
-    float quit_y = start_y + btn_h + gap;
+    float instr_y = start_y + btn_h + gap;         // Nouveau bouton milieu
+    float quit_y = start_y + (btn_h + gap) * 2;    // Quitter descend en bas
 
-    // --- BOUTON 1 : JOUER (Vert) ---
+    float text_size = 0.35f; // Texte un peu plus petit pour tout faire rentrer
+
+    // 1. BOUTON JOUER (Vert)
     SDL_SetRenderDrawColor(rend, 0, 200, 0, 255);
     SDL_FRect play_rect = {btn_x, play_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &play_rect);
-    
-    // Texte "JOUER"
-    float text_size = 0.4f;
-    // Centrage approximatif du texte
-    draw_text("JOUER", btn_x + 8.0f, play_y + 1.5f, text_size);
+    draw_text("JOUER", btn_x + 9.5f, play_y + 1.5f, text_size); // Centré à vue d'oeil
 
+    // 2. BOUTON INSTRUCTIONS (Bleu) - NOUVEAU
+    SDL_SetRenderDrawColor(rend, 0, 100, 255, 255);
+    SDL_FRect instr_rect = {btn_x, instr_y, btn_w, btn_h};
+    SDL_RenderFillRect(rend, &instr_rect);
+    draw_text("INSTRUCTIONS", btn_x + 3.0f, instr_y + 1.5f, text_size);
 
-    // --- BOUTON 2 : QUITTER (Rouge) ---
+    // 3. BOUTON QUITTER (Rouge)
     SDL_SetRenderDrawColor(rend, 200, 0, 0, 255);
     SDL_FRect quit_rect = {btn_x, quit_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &quit_rect);
+    draw_text("QUITTER", btn_x + 8.0f, quit_y + 1.5f, text_size);
 
-    // Texte "QUITTER"
-    // "QUITTER" fait 7 lettres. 7 * 4 * 0.4 = 11.2 de large. 
-    // (24 - 11.2) / 2 = 6.4 de marge à gauche.
-    draw_text("QUITTER", btn_x + 6.0f, quit_y + 1.5f, text_size);
-
-    // --- TITRE ---
+    // Titre
     draw_text("SPACE INVADERS", (game->width - (14 * 4 * 0.5)) / 2, 5.0f, 0.5f);
+}
+
+void draw_instructions(GameState *game) {
+    // 1. Fond bleu nuit
+    SDL_SetRenderDrawColor(rend, 10, 10, 40, 255);
+    SDL_RenderClear(rend);
+
+    float cx = game->width / 2; // Centre de l'écran
+    float text_size = 0.3f;     // Taille du texte standard
+    float title_size = 0.5f;    // Taille du titre
+    
+    // --- TITRE ---
+    // Centré en haut
+    SDL_SetRenderDrawColor(rend, 255, 255, 0, 255); // Jaune
+    draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2, 5.0f, title_size);
+
+    // --- LE BUT DU JEU ---
+    SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); // Blanc
+    // "VOTRE BUT EST DE TUER LES ENNEMIS AU COMPLET"
+    draw_text("VOTRE BUT EST DE TUER", 15.0f, 12.0f, text_size);
+    draw_text("LES ENNEMIS AU COMPLET", 15.0f, 15.0f, text_size);
+
+
+    // --- DEUX COLONNES ---
+    float col_left_x = 5.0f;           // Marge gauche
+    float col_right_x = cx + 2.0f;     // Marge droite (juste après le milieu)
+    float y_start = 22.0f;             // Hauteur de départ des colonnes
+
+    // COLONNE GAUCHE : LES TOUCHES
+    SDL_SetRenderDrawColor(rend, 0, 255, 255, 255); // Cyan
+    draw_text("ESPACE POUR TIRER", col_left_x, y_start, text_size);
+    
+    draw_text("Q POUR GAUCHE", col_left_x, y_start + 4.0f, text_size);
+    draw_text("D POUR DROITE", col_left_x, y_start + 8.0f, text_size);
+
+
+    // COLONNE DROITE : LES VIES
+    // "Vous avez 3 vies ! Ne les gaspillez pas !"
+    SDL_SetRenderDrawColor(rend, 255, 100, 100, 255); // Rouge clair
+    
+    float cursor = draw_text("VOUS AVEZ ", col_right_x, y_start, text_size);
+    // On dessine le chiffre 3 avec draw_number car ta police n'a pas de chiffres
+    draw_number(3, cursor, y_start, text_size); 
+    draw_text(" VIES", cursor + 3.0f, y_start, text_size);
+
+    draw_text("NE LES GASPILLEZ PAS", col_right_x, y_start + 4.0f, text_size);
+
+
+    // --- PIED DE PAGE ---
+    // "Bonne chance terrien !"
+    SDL_SetRenderDrawColor(rend, 0, 255, 0, 255); // Vert
+    // Centrage approximatif
+    draw_text("BONNE CHANCE TERRIEN", cx - (20 * 4 * text_size) / 2, game->height - 8.0f, text_size);
+    
+    // Bouton retour discret
+    SDL_SetRenderDrawColor(rend, 100, 100, 100, 255); // Gris
+    draw_text("ENTREE POUR RETOUR", cx - 12.0f, game->height - 4.0f, 0.25f);
+}
+
+void draw_win_view(GameState *game) {
+    // Fond Vert foncé
+    SDL_SetRenderDrawColor(rend, 0, 50, 0, 255); 
+    SDL_RenderClear(rend);
+
+    float cx = game->width / 2;
+    float cy = game->height / 2;
+
+    // Grand Titre
+    draw_text("VICTOIRE !", cx - 10.0f, cy - 5.0f, 0.6f);
+    
+    // Affichage du Score final
+    draw_text("SCORE FINAL", cx - 11.0f, cy, 0.4f);
+    draw_number(game->score, cx + 12.0f, cy, 0.4f);
+
+    // --- INSTRUCTIONS DE NAVIGATION ---
+    
+    // 1. Rejouer (Touche Entrée)
+    draw_text("ENTREE POUR CONTINUER", cx - 15.0f, cy + 8.0f, 0.3f);
+    
+    // 2. Retour Accueil (Touche Echap) - AJOUT ICI
+    draw_text("ECHAP POUR ACCUEIL", cx - 14.5f, cy + 12.0f, 0.3f);
+}
+
+void draw_lose_view(GameState *game) {
+    // Fond Rouge foncé
+    SDL_SetRenderDrawColor(rend, 50, 0, 0, 255); 
+    SDL_RenderClear(rend);
+
+    float cx = game->width / 2;
+    float cy = game->height / 2;
+
+    draw_text("GAME OVER", cx - 9.0f, cy - 5.0f, 0.6f);
+    
+    draw_text("SCORE", cx - 6.0f, cy, 0.4f);
+    draw_number(game->score, cx + 6.0f, cy, 0.4f);
+
+    draw_text("ENTREE POUR REJOUER", cx - 15.0f, cy + 8.0f, 0.3f);
+    draw_text("ECHAP POUR ACCUEIL", cx - 14.5f, cy + 12.0f, 0.3f);
 }
 
 void draw_pause_menu(GameState *game) {
@@ -321,13 +418,13 @@ void draw_game_view(GameState *game) {
 }
 
 void draw_sdl_view(GameState *game) {
-    if (game->currView == ACCUEIL) {
-        draw_menu_view(game);
-    } else if (game->currView == JEU) {
-        draw_game_view(game);
-    } else if (game->currView == MENU_JEU) { // le nouveau menu si "echap" en jeu
-        draw_pause_menu(game);
-    }
+    if (game->currView == ACCUEIL)       draw_menu_view(game);
+    else if (game->currView == INSTRUCTION) draw_instructions(game); // <--- Ici
+    else if (game->currView == JEU)      draw_game_view(game);
+    else if (game->currView == MENU_JEU) draw_pause_menu(game);
+    else if (game->currView == MENU_GAGNE) draw_win_view(game);       // <--- Ici
+    else if (game->currView == MENU_PERD) draw_lose_view(game);      // <--- Ici
+    
     SDL_RenderPresent(rend);
 }
 

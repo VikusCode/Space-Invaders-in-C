@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
     srand(time(NULL));
     game.isNC = 0;
     game.isSDL = 1; 
-    init_model(&game, GRID_WIDTH, GRID_HEIGHT);
+    init_model(&game, GRID_WIDTH, GRID_HEIGHT, score_init);
     
     
     if (!init_sdl_view(&game)) return EXIT_FAILURE;
@@ -34,19 +34,18 @@ int main(int argc, char const *argv[])
     while (running) {
         
         handle_event(&game, &running); 
-        
         if (game.currView == JEU && !game.game_over) {
             if (!game.pause) { // ca sert a faire en sorte que le jeu s'arrete pas mais soit en pause
                 update_bullets(&game);      
                 update_enemies(&game);      
-                // enemy_shoot(&game); // je l'ai enleve car je voulais teste si les ennemis detruisaient les boucliers        
+                enemy_shoot(&game); // je l'ai enleve car je voulais teste si les ennemis detruisaient les boucliers        
                 check_collisions(&game);
             }   
         }
         
         draw_sdl_view(&game);
         
-        SDL_Delay(2); // au plus c'esdt bas plus ca trace
+        SDL_Delay(16); // au plus c'esdt bas plus ca trace
     }
     close_sdl_view();
     } else if (a == 'n' || a == 'N') {

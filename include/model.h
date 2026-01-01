@@ -13,6 +13,7 @@
 #define SHIELD_W 5
 #define SHIELD_H 4
 #define MAX_SHIELD_BRICKS (MAX_SHIELDS * SHIELD_W * SHIELD_H)
+#define score_init 0
 
 // --- Structures ---
 typedef struct {
@@ -43,8 +44,11 @@ typedef struct {
 
 typedef enum {
     ACCUEIL, 
+    INSTRUCTION,
     JEU, 
-    MENU_JEU
+    MENU_JEU,
+    MENU_GAGNE,
+    MENU_PERD
 } VueState;
 
 typedef struct {
@@ -73,7 +77,7 @@ typedef struct {
     int height;
 } GameState;
 
-void init_model(GameState *game, int width, int height);
+void init_model(GameState *game, int width, int height, int score);
 void update_bullets(GameState *game);
 void update_enemies(GameState *game);
 void enemy_shoot(GameState *game);

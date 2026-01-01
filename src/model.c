@@ -3,113 +3,92 @@
 #include "../include/model.h"
 #include "../include/view_ncurses.h"
 
-void init_model(GameState *game, int width, int height) {
-    if (game->isSDL == 1) {
-        game->width = width;
-        game->height = height;
-        
-        // --- INIT JOUEUR ---
-        game->player.x = width / 2;
-        game->player.y = height - 2;
-        game->nb_lives = 3;
-        game->score = 0;
-        game->currView = ACCUEIL; 
+int cpt_alive;
 
-        // --- INIT BALLES ---
-        for (int i = 0; i < MAX_BULLETS; i++) game->bullets[i].active = 0;
-        for (int i = 0; i < MAX_ENEMY_BULLETS; i++) game->enemy_bullets[i].active = 0;
+void init_model(GameState *game, int width, int height, int score) {
+    // On définit les dimensions (marche pour SDL et Ncurses)
+    game->width = width;
+    game->height = height;
+    
+    // --- INIT JOUEUR ---
+    game->player.x = width / 2;
+    game->player.y = height - 2;
+    game->nb_lives = 3;
+    
+    // ICI : On utilise le paramètre score
+    game->score = score; 
+    
+    game->currView = ACCUEIL; 
 
-        // --- INIT ENNEMIS (DYNAMIQUE) ---
-        
-        // 1. Calcul des marges (10% de chaque côté)
-        int margin = width / 10; 
-        
-        // 2. Largeur disponible pour les ennemis (80% du centre)
-        int usable_width = width - (2 * margin);
-        
-        int dynamic_spacing = usable_width / (ENEMY_COLS);
-        
-        if (dynamic_spacing < 2) dynamic_spacing = 2;
+    // --- INIT BALLES ---
+    for (int i = 0; i < MAX_BULLETS; i++) game->bullets[i].active = 0;
+    for (int i = 0; i < MAX_ENEMY_BULLETS; i++) game->enemy_bullets[i].active = 0;
 
-        int total_enemy_block_width = (ENEMY_COLS - 1) * dynamic_spacing;
-        int start_x = (width - total_enemy_block_width) / 2;
-        
-        // 5. Hauteur de départ (comme vu précédemment, ex: 15% du haut)
-        int start_y = height / 6; 
+    // --- INIT ENNEMIS ---
+    int margin = width / 10; 
+    int usable_width = width - (2 * margin);
+    int dynamic_spacing = usable_width / (ENEMY_COLS);
+    if (dynamic_spacing < 2) dynamic_spacing = 2;
 
-        for (int row = 0; row < ENEMY_ROWS; row++) {
-            for (int col = 0; col < ENEMY_COLS; col++) {
-                int idx = row * ENEMY_COLS + col;
-                
-                
-                // On utilise le start_x calculé + l'espacement dynamique
-                game->enemies[idx].x = start_x + (col * dynamic_spacing);
-                
-                // On utilise le start_y (height/6) + l'espacement vertical (2)
-                game->enemies[idx].y = start_y + (row * 2); 
-                
-                
-                game->enemies[idx].alive = 1;
+    int total_enemy_block_width = (ENEMY_COLS - 1) * dynamic_spacing;
+    int start_x = (width - total_enemy_block_width) / 2;
+    int start_y = height / 6; 
 
-                // 3. Assignation des types
-                if (row == 0) {
-                    game->enemies[idx].type = SQUID;
-                } else if (row == 1 || row == 2) {
-                    game->enemies[idx].type = CRABS;
-                } else {
-                    game->enemies[idx].type = OCTOPUS;
-                }
+    for (int row = 0; row < ENEMY_ROWS; row++) {
+        for (int col = 0; col < ENEMY_COLS; col++) {
+            int idx = row * ENEMY_COLS + col;
+            
+            game->enemies[idx].x = start_x + (col * dynamic_spacing);
+            game->enemies[idx].y = start_y + (row * 2); 
+            
+            // --- MODE TEST : UN SEUL ENNEMI ---
+            if (idx == 0) { 
+                game->enemies[idx].alive = 1; 
+            } else {
+                game->enemies[idx].alive = 0;
             }
+            // ----------------------------------
+
+            // Types
+            if (row == 0) game->enemies[idx].type = SQUID;
+            else if (row == 1 || row == 2) game->enemies[idx].type = CRABS;
+            else game->enemies[idx].type = OCTOPUS;
         }
+    }
 
-        int shape[4][5] = {    // J'ai mis 4 et 5 en dur pour être sûr que ça marche
-            {0, 1, 1, 1, 0}, 
-            {1, 1, 1, 1, 1}, 
-            {1, 1, 1, 1, 1}, 
-            {1, 1, 0, 1, 1}
-        };
+    // --- INIT BOUCLIERS ---
+    int shape[4][5] = {
+        {0, 1, 1, 1, 0}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 0, 1, 1}
+    };
 
-        // 2. Init à 0
-        for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
+    for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
 
-        // 3. Calculs
-        float spacing = width / 5.0f; 
-        
-        // CORRECTION ICI : On change le nom de la variable pour éviter le conflit
-        float shield_start_y = height - 7.0f; 
+    float spacing = width / 5.0f; 
+    float shield_start_y = height - 7.0f; 
+    int brick_idx = 0;
 
-        int brick_idx = 0;
-
-        for (int s = 0; s < MAX_SHIELDS; s++) {
-            float shield_start_x = (s + 1) * spacing - (SHIELD_W / 2.0f);
-
-            for (int r = 0; r < SHIELD_H; r++) {
-                for (int c = 0; c < SHIELD_W; c++) {
-                    
-                    // Attention : On vérifie qu'on ne dépasse pas le tableau shape
-                    // Si SHIELD_H vaut 4 dans le .h, c'est bon.
-                    if (shape[r][c] == 1) {
-                        if (brick_idx < MAX_SHIELD_BRICKS) {
-                            game->shields[brick_idx].x = shield_start_x + c;
-                            
-                            // CORRECTION ICI : On utilise la nouvelle variable
-                            game->shields[brick_idx].y = shield_start_y + r; 
-                            
-                            game->shields[brick_idx].active = 1;
-                            brick_idx++;
-                        }
+    for (int s = 0; s < MAX_SHIELDS; s++) {
+        float shield_start_x = (s + 1) * spacing - (SHIELD_W / 2.0f);
+        for (int r = 0; r < SHIELD_H; r++) {
+            for (int c = 0; c < SHIELD_W; c++) {
+                if (shape[r][c] == 1) {
+                    if (brick_idx < MAX_SHIELD_BRICKS) {
+                        game->shields[brick_idx].x = shield_start_x + c;
+                        game->shields[brick_idx].y = shield_start_y + r; 
+                        game->shields[brick_idx].active = 1;
+                        brick_idx++;
                     }
                 }
             }
         }
-        
-        game->game_over = 0;
-        game->enemy_direction = 1;
-        game->enemy_move_counter = 0;
     }
-    // else if (game->isNC) {
-    //     init_ncurses_view();
-    // }
+    
+    game->game_over = 0;
+    game->enemy_direction = 1;
+    game->enemy_move_counter = 0;
 }
 
 void player_shoot(GameState *game) {
@@ -171,15 +150,20 @@ void enemy_shoot(GameState *game) {
 }
 
 void update_enemies(GameState *game) {
-    int cpt;
+    if (game->game_over) {
+        game->currView = MENU_PERD; // c'est la le changement pour les ecrans de defaite victoire
+        return;
+    }
+    cpt_alive = 0;
     for (int i = 0; i < ENEMY_COLS * ENEMY_ROWS; i++) {
-        if (game->enemies[i].alive == 0) {
-            cpt++;
-        }
-        if (cpt == ENEMY_COLS * ENEMY_ROWS) {
-            printf("Gagne");
+        if (game->enemies[i].alive == 1) {
+            cpt_alive++;
         }
     }
+    if (cpt_alive == 0) {
+            game->currView = MENU_GAGNE;
+    }
+    
     // 1. GESTION VITESSE
     game->enemy_move_counter++;
     if (game->enemy_move_counter < 25) return; 
@@ -314,8 +298,12 @@ void check_collisions(GameState *game) {
         if (game->enemy_bullets[i].active) {
             if (game->enemy_bullets[i].x == game->player.x && 
                 game->enemy_bullets[i].y == game->player.y) {
+                    game->enemy_bullets[i].active = 0;
                     if (game->nb_lives > 0) game->nb_lives--; // baisser la vie de notre vaisseau
-                    if (game->nb_lives == 0) game->game_over=1; // perdre si on a plus de vie
+                    if (game->nb_lives <= 0) {
+                        game->game_over = 1;
+                        game->currView = MENU_PERD;
+                    }
             }
         }
     }

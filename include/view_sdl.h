@@ -13,6 +13,8 @@ void draw_sdl_view(GameState *game);
 void draw_game_view(GameState *game);
 float draw_text(const char* text, float x, float y, float size);
 void close_sdl_view();
+void draw_number(int number, float x, float y, float size);
+void draw_pause_menu(GameState *game);
 void convert_mouse_coordinates(float *x, float *y);
 void draw_menu_view(GameState *game);
 #endif
