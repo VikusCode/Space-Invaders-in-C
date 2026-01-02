@@ -115,7 +115,7 @@ void handle_event(GameState *game, int *running) {
                     case JEU:
                         switch (event.key.key) {
                             case SDLK_A: // a enlever apres
-                                game->game_over=1;
+                                game->nb_lives = 0;
                                 game->currView = MENU_PERD;
                                 break;
                             case SDLK_ESCAPE: 

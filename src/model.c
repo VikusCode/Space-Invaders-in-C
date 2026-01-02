@@ -301,14 +301,13 @@ void check_collisions(GameState *game) {
                     game->enemy_bullets[i].active = 0;
                     if (game->nb_lives > 0) game->nb_lives--; // baisser la vie de notre vaisseau
                     if (game->nb_lives <= 0) {
+                        game->game_over = 1;
                         if (game->isSDL && game->track_music) {
                             MIX_PauseTrack(game->track_music); 
                         }
                         if (game->isSDL && game->track_explosion) { //nouveau if
                             MIX_PlayTrack(game->track_explosion, 0);
                         }
-                        
-                        game->game_over = 1;
                         game->currView = MENU_PERD;
                     }
             }
