@@ -167,12 +167,12 @@ static void draw_menu_accueil(void) {
     attroff(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
     
     attron(COLOR_PAIR(COLOR_MENU));
-    mvprintw(center_y, center_x - 12, "Appuyez sur ENTRÉE");
+    mvprintw(center_y, center_x - 12, "Appuyez sur ENTREE");
     mvprintw(center_y + 1, center_x - 8, "pour commencer");
     attroff(COLOR_PAIR(COLOR_MENU));
     
     mvprintw(center_y + 4, center_x - 10, "Commandes:");
-    mvprintw(center_y + 5, center_x - 10, "  ← →  : Déplacer");
+    mvprintw(center_y + 5, center_x - 10, "  ← →  : Deplacer");
     mvprintw(center_y + 6, center_x - 10, "  ESPACE : Tirer");
     mvprintw(center_y + 7, center_x - 10, "  P : Pause");
     mvprintw(center_y + 8, center_x - 10, "  Q : Quitter");

@@ -5,6 +5,7 @@
 #include "../include/model.h"
 #include "../include/controller.h"
 #include "../include/view_ncurses.h"
+#include "../include/view_sdl.h"
 
 int main(int argc, char const *argv[])
 {
@@ -14,7 +15,7 @@ int main(int argc, char const *argv[])
     game.isNC = 1;
     init_ncurses();
     
-    init_model(&game, COLS, LINES, 0);
+    init_model(&game, COLS, LINES, score_init);
 
     int running = 1;
     while (running) {
