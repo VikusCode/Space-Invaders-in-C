@@ -6,3 +6,4 @@
 */
 
 void handle_event(GameState *game, int *running);
+int handle_input_ncurses(GameState *game);

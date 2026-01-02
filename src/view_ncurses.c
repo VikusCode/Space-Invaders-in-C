@@ -5,6 +5,7 @@
 
 #include <ncurses.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "../include/view_ncurses.h"
 #include "../include/model.h"
@@ -35,16 +36,16 @@ static void draw_enemy(Enemy *enemy, int frame) {
     attron(COLOR_PAIR(COLOR_ENEMY));
     
     // Sélectionner le sprite selon le type
-    const char *sprite = NULL;
+    const char *sprite;
     switch (enemy->type) {
         case SQUID:
-            sprite = (frame % 2 == 0) ? sprite_squid : sprite_squid;
+            sprite = &(squid);
             break;
         case CRABS:
-            sprite = (frame % 2 == 0) ? sprite_crab : sprite_crab;
+            sprite = &(crab);
             break;
         case OCTOPUS:
-            sprite = (frame % 2 == 0) ? sprite_octopus : sprite_octopus;
+            sprite = &(octo);
             break;
     }
     
@@ -178,9 +179,9 @@ static void draw_menu_accueil(void) {
     
     // Afficher les sprites des ennemis
     attron(COLOR_PAIR(COLOR_ENEMY));
-    mvprintw(center_y + 11, center_x - 15, "%s = 40 pts", sprite_squid);
-    mvprintw(center_y + 12, center_x - 15, "%s = 20 pts", sprite_crab);
-    mvprintw(center_y + 13, center_x - 15, "%s = 10 pts", sprite_octopus);
+    mvprintw(center_y + 11, center_x - 15, "%d = 40 pts", squid);
+    mvprintw(center_y + 12, center_x - 15, "%d = 20 pts", crab);
+    mvprintw(center_y + 13, center_x - 15, "%d = 10 pts", octo);
     attroff(COLOR_PAIR(COLOR_ENEMY));
 }
 
@@ -336,54 +337,53 @@ void render_ncurses(GameState *game) {
     refresh();
 }
 
-int handle_input_ncurses(GameState *game) {
-    int ch = getch();
+// int handle_input_ncurses(GameState *game) {
+//     int ch = getch();
     
-    if (ch == ERR) {
-        return 1; // Pas d'entrée
-    }
+//     if (ch == ERR) {
+//         return 1; // Pas d'entrée
+//     }
     
-    // Commandes globales
-    if (ch == 'q' || ch == 'Q') {
-        return 0; // Quitter
-    }
+//     if (ch == 'q' || ch == 'Q') {
+//         return 0; // Quitter
+//     }
     
-    switch (game->currView) {
-        case ACCUEIL:
-            if (ch == '\n' || ch == KEY_ENTER) {
-                game->currView = JEU;
-            }
-            break;
+//     switch (game->currView) {
+//         case ACCUEIL:
+//             if (ch == '\n' || ch == KEY_ENTER) {
+//                 game->currView = JEU;
+//             }
+//             break;
             
-        case JEU:
-            if (ch == KEY_LEFT) {
-                player_move(game, -1);
-            } else if (ch == KEY_RIGHT) {
-                player_move(game, 1);
-            } else if (ch == ' ') {
-                player_shoot(game);
-            } else if (ch == 'p' || ch == 'P') {
-                game->currView = MENU_JEU;
-            }
-            break;
+//         case JEU:
+//             if (ch == KEY_LEFT) {
+//                 player_move(game, -1);
+//             } else if (ch == KEY_RIGHT) {
+//                 player_move(game, 1);
+//             } else if (ch == ' ') {
+//                 player_shoot(game);
+//             } else if (ch == 'p' || ch == 'P') {
+//                 game->currView = MENU_JEU;
+//             }
+//             break;
             
-        case MENU_JEU:
-            if (ch == 'p' || ch == 'P') {
-                game->currView = JEU;
-            }
-            break;
+//         case MENU_JEU:
+//             if (ch == 'p' || ch == 'P') {
+//                 game->currView = JEU;
+//             }
+//             break;
             
-        case MENU_PERD:
-        case MENU_GAGNE:
-            if (ch == 'r' || ch == 'R') {
-                init_model(game, game->width, game->height, 0);
-                game->currView = JEU;
-            }
-            break;
+//         case MENU_PERD:
+//         case MENU_GAGNE:
+//             if (ch == 'r' || ch == 'R') {
+//                 init_model(game, game->width, game->height, 0);
+//                 game->currView = JEU;
+//             }
+//             break;
             
-        default:
-            break;
-    }
+//         default:
+//             break;
+//     }
     
-    return 1; // Continuer
-}
+//     return 1; // Continuer
+// }

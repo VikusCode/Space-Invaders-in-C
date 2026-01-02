@@ -97,3 +97,7 @@ static const int font[10][15] = {
         {1,1,1, 1,0,1, 1,1,1, 1,0,1, 1,1,1}, // 8
         {1,1,1, 1,0,1, 1,1,1, 0,0,1, 1,1,1}  // 9
     };
+
+static const char octo = 'x';
+static const char crab = 'c';
+static const char squid = 's';

@@ -54,11 +54,11 @@ void cleanup_ncurses(void);
  */
 void render_ncurses(GameState *game);
 
-/**
- * @brief Gère les entrées clavier
- * @param game Pointeur vers l'état du jeu
- * @return 1 pour continuer, 0 pour quitter
- */
-int handle_input_ncurses(GameState *game);
+// /**
+//  * @brief Gère les entrées clavier
+//  * @param game Pointeur vers l'état du jeu
+//  * @return 1 pour continuer, 0 pour quitter
+//  */
+// int handle_input_ncurses(GameState *game);
 
 #endif /* VIEW_NCURSES_H */

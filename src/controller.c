@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL3/SDL.h>
+#include <ncurses.h>
 
 #include "../include/controller.h"
 #include "../include/view_sdl.h"
@@ -188,6 +189,59 @@ void handle_event(GameState *game, int *running) {
                         break;
                 }
             }
-        }
+        } 
     }
+}
+
+int handle_input_ncurses(GameState *game) {
+    int ch = getch();
+    
+    if (ch == ERR) {
+        return 1; // Pas d'entrée, on continue la boucle
+    }
+    
+    // Commandes globales
+    if (ch == 'q' || ch == 'Q') {
+        return 0; // Quitter le jeu
+    }
+    
+    switch (game->currView) {
+        case ACCUEIL:
+            if (ch == '\n' || ch == KEY_ENTER) {
+                init_model(game, game->width, game->height, 0); // Reset pour être sûr
+                game->currView = JEU;
+            }
+            break;
+            
+        case JEU:
+            if (ch == KEY_LEFT) {
+                player_move(game, -1);
+            } else if (ch == KEY_RIGHT) {
+                player_move(game, 1);
+            } else if (ch == ' ') {
+                player_shoot(game);
+            } else if (ch == 'p' || ch == 'P') {
+                game->currView = MENU_JEU;
+            }
+            break;
+            
+        case MENU_JEU:
+            if (ch == 'p' || ch == 'P') {
+                game->currView = JEU;
+            }
+            break;
+            
+        case MENU_PERD:
+        case MENU_GAGNE:
+            if (ch == 'r' || ch == 'R') {
+                init_model(game, game->width, game->height, 0);
+                game->currView = JEU;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return 1; // On continue la boucle
 }
