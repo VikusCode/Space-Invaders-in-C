@@ -42,6 +42,33 @@ refresh_libs:
 	@echo "✅ Installation complète terminée avec succès !"
 
 install_full: install_NC install_system_deps install_sdl3 install_sdl_mixer refresh_libs
+
+install_deps_fedora:
+	@echo "🤠 Installation des dépendances Ncurses pour Fedora..."
+	sudo dnf check-update || true
+	sudo dnf install -y ncurses-devel
+	@echo "✅ Ncurses installé."
+
+# 2. Installation Complète (Outils système + SDL3 + Mixer depuis la source)
+install_full_fedora: install_sys_fedora install_sdl3 install_sdl_mixer refresh_libs
+
+install_sys_fedora:
+	@echo "🤠 Installation des outils de compilation et drivers audio/vidéo..."
+	# Outils de base (GCC, Make, CMake, Git)
+	sudo dnf groupinstall -y "Development Tools"
+	sudo dnf install -y cmake git
+	
+	# Dépendances graphiques (X11, Wayland)
+	sudo dnf install -y libX11-devel libXext-devel libXrandr-devel \
+	                    libXcursor-devel libXi-devel libXinerama-devel \
+	                    wayland-devel libxkbcommon-devel
+	
+	# Dépendances Audio (ALSA, PulseAudio, Pipewire)
+	sudo dnf install -y alsa-lib-devel pulseaudio-libs-devel pipewire-devel
+	
+	# Codecs Audio pour SDL_mixer (MP3, OGG, FLAC)
+	sudo dnf install -y flac-devel libvorbis-devel opus-devel mpg123-devel libogg-devel
+
 # Lancemeent de programme
 CC = gcc
 
