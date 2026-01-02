@@ -1,158 +1,389 @@
+/**
+ * @file view_ncurses.c
+ * @brief Implémentation de la vue ncurses pour Space Invaders
+ */
+
 #include <ncurses.h>
+#include <string.h>
+#include <stdio.h>
 #include "../include/view_ncurses.h"
-#include "../include/model.h" // Nécessaire pour les types d'ennemis et currView
+#include "../include/model.h"
+#include "../assets/sprite.h"
 
-// Définition des Paires de couleurs
-#define COL_PLAYER  1
-#define COL_ENEMY   2
-#define COL_BULLET  3
-#define COL_SHIELD  4
-#define COL_TEXT    5
+/* ============================================================================
+ * FONCTIONS PRIVÉES - AFFICHAGE DES ÉLÉMENTS
+ * ============================================================================ */
 
-void init_ncurses_view() {
+/**
+ * @brief Affiche le joueur
+ */
+static void draw_player(GameState *game) {
+    if (game->player.y >= 0 && game->player.y < LINES && 
+        game->player.x >= 0 && game->player.x < COLS) {
+        attron(COLOR_PAIR(COLOR_PLAYER));
+        mvaddch(game->player.y, game->player.x, PLAYER_CHAR);
+        attroff(COLOR_PAIR(COLOR_PLAYER));
+    }
+}
+
+/**
+ * @brief Affiche un ennemi avec son sprite
+ */
+static void draw_enemy(Enemy *enemy, int frame) {
+    if (!enemy->alive) return;
+    
+    attron(COLOR_PAIR(COLOR_ENEMY));
+    
+    // Sélectionner le sprite selon le type
+    const char *sprite = NULL;
+    switch (enemy->type) {
+        case SQUID:
+            sprite = (frame % 2 == 0) ? sprite_squid : sprite_squid;
+            break;
+        case CRABS:
+            sprite = (frame % 2 == 0) ? sprite_crab : sprite_crab;
+            break;
+        case OCTOPUS:
+            sprite = (frame % 2 == 0) ? sprite_octopus : sprite_octopus;
+            break;
+    }
+    
+    if (sprite && enemy->y >= 0 && enemy->y < LINES && 
+        enemy->x >= 0 && enemy->x < COLS) {
+        mvaddch(enemy->y, enemy->x, sprite[0]);
+    }
+    
+    attroff(COLOR_PAIR(COLOR_ENEMY));
+}
+
+/**
+ * @brief Affiche tous les ennemis
+ */
+static void draw_enemies(GameState *game) {
+    static int animation_frame = 0;
+    animation_frame++;
+    
+    for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
+        draw_enemy(&game->enemies[i], animation_frame / 15);
+    }
+}
+
+/**
+ * @brief Affiche les projectiles du joueur
+ */
+static void draw_bullets(GameState *game) {
+    attron(COLOR_PAIR(COLOR_BULLET));
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        if (game->bullets[i].active && 
+            game->bullets[i].y >= 0 && game->bullets[i].y < LINES && 
+            game->bullets[i].x >= 0 && game->bullets[i].x < COLS) {
+            mvaddch(game->bullets[i].y, game->bullets[i].x, BULLET_CHAR);
+        }
+    }
+    attroff(COLOR_PAIR(COLOR_BULLET));
+}
+
+/**
+ * @brief Affiche les projectiles ennemis
+ */
+static void draw_enemy_bullets(GameState *game) {
+    attron(COLOR_PAIR(COLOR_ENEMY_BULLET));
+    for (int i = 0; i < MAX_ENEMY_BULLETS; i++) {
+        if (game->enemy_bullets[i].active && 
+            game->enemy_bullets[i].y >= 0 && game->enemy_bullets[i].y < LINES && 
+            game->enemy_bullets[i].x >= 0 && game->enemy_bullets[i].x < COLS) {
+            mvaddch(game->enemy_bullets[i].y, game->enemy_bullets[i].x, ENEMY_BULLET_CHAR);
+        }
+    }
+    attroff(COLOR_PAIR(COLOR_ENEMY_BULLET));
+}
+
+/**
+ * @brief Affiche les boucliers
+ */
+static void draw_shields(GameState *game) {
+    attron(COLOR_PAIR(COLOR_SHIELD));
+    for (int i = 0; i < MAX_SHIELD_BRICKS; i++) {
+        if (game->shields[i].active && 
+            game->shields[i].y >= 0 && game->shields[i].y < LINES && 
+            game->shields[i].x >= 0 && game->shields[i].x < COLS) {
+            mvaddch(game->shields[i].y, game->shields[i].x, SHIELD_CHAR);
+        }
+    }
+    attroff(COLOR_PAIR(COLOR_SHIELD));
+}
+
+/**
+ * @brief Affiche le HUD (score, vies)
+ */
+static void draw_hud(GameState *game) {
+    attron(COLOR_PAIR(COLOR_HUD));
+    mvprintw(0, 2, "SCORE: %05d", game->score);
+    mvprintw(0, 20, "VIES: %d", game->nb_lives);
+    mvprintw(0, COLS - 20, "[P]ause [Q]uit");
+    attroff(COLOR_PAIR(COLOR_HUD));
+}
+
+/**
+ * @brief Affiche une bordure autour de l'écran de jeu
+ */
+static void draw_border(int height, int width) {
+    attron(COLOR_PAIR(COLOR_BORDER));
+    for (int i = 0; i < width; i++) {
+        mvaddch(1, i, '-');
+        mvaddch(height - 1, i, '-');
+    }
+    for (int i = 1; i < height; i++) {
+        mvaddch(i, 0, '|');
+        mvaddch(i, width - 1, '|');
+    }
+    mvaddch(1, 0, '+');
+    mvaddch(1, width - 1, '+');
+    mvaddch(height - 1, 0, '+');
+    mvaddch(height - 1, width - 1, '+');
+    attroff(COLOR_PAIR(COLOR_BORDER));
+}
+
+/* ============================================================================
+ * FONCTIONS PRIVÉES - MENUS ET ÉCRANS
+ * ============================================================================ */
+
+/**
+ * @brief Affiche l'écran d'accueil
+ */
+static void draw_menu_accueil(void) {
+    int center_y = LINES / 2;
+    int center_x = COLS / 2;
+    
+    clear();
+    
+    attron(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
+    mvprintw(center_y - 6, center_x - 15, "╔═══════════════════════════════╗");
+    mvprintw(center_y - 5, center_x - 15, "║                               ║");
+    mvprintw(center_y - 4, center_x - 15, "║     SPACE INVADERS v1.0       ║");
+    mvprintw(center_y - 3, center_x - 15, "║                               ║");
+    mvprintw(center_y - 2, center_x - 15, "╚═══════════════════════════════╝");
+    attroff(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
+    
+    attron(COLOR_PAIR(COLOR_MENU));
+    mvprintw(center_y, center_x - 12, "Appuyez sur ENTRÉE");
+    mvprintw(center_y + 1, center_x - 8, "pour commencer");
+    attroff(COLOR_PAIR(COLOR_MENU));
+    
+    mvprintw(center_y + 4, center_x - 10, "Commandes:");
+    mvprintw(center_y + 5, center_x - 10, "  ← →  : Déplacer");
+    mvprintw(center_y + 6, center_x - 10, "  ESPACE : Tirer");
+    mvprintw(center_y + 7, center_x - 10, "  P : Pause");
+    mvprintw(center_y + 8, center_x - 10, "  Q : Quitter");
+    
+    // Afficher les sprites des ennemis
+    attron(COLOR_PAIR(COLOR_ENEMY));
+    mvprintw(center_y + 11, center_x - 15, "%s = 40 pts", sprite_squid);
+    mvprintw(center_y + 12, center_x - 15, "%s = 20 pts", sprite_crab);
+    mvprintw(center_y + 13, center_x - 15, "%s = 10 pts", sprite_octopus);
+    attroff(COLOR_PAIR(COLOR_ENEMY));
+}
+
+/**
+ * @brief Affiche l'écran de défaite
+ */
+static void draw_menu_perd(GameState *game) {
+    int center_y = LINES / 2;
+    int center_x = COLS / 2;
+    
+    clear();
+    
+    attron(COLOR_PAIR(COLOR_GAME_OVER) | A_BOLD);
+    mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
+    mvprintw(center_y - 2, center_x - 12, "║                   ║");
+    mvprintw(center_y - 1, center_x - 12, "║   GAME  OVER !    ║");
+    mvprintw(center_y,     center_x - 12, "║                   ║");
+    mvprintw(center_y + 1, center_x - 12, "╚═══════════════════╝");
+    attroff(COLOR_PAIR(COLOR_GAME_OVER) | A_BOLD);
+    
+    attron(COLOR_PAIR(COLOR_MENU));
+    mvprintw(center_y + 3, center_x - 12, "Score final: %d", game->score);
+    mvprintw(center_y + 5, center_x - 18, "Appuyez sur R pour recommencer");
+    mvprintw(center_y + 6, center_x - 15, "ou Q pour quitter");
+    attroff(COLOR_PAIR(COLOR_MENU));
+}
+
+/**
+ * @brief Affiche l'écran de victoire
+ */
+static void draw_menu_gagne(GameState *game) {
+    int center_y = LINES / 2;
+    int center_x = COLS / 2;
+    
+    clear();
+    
+    attron(COLOR_PAIR(COLOR_WIN) | A_BOLD);
+    mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
+    mvprintw(center_y - 2, center_x - 12, "║                   ║");
+    mvprintw(center_y - 1, center_x - 12, "║   VICTOIRE !!!    ║");
+    mvprintw(center_y,     center_x - 12, "║                   ║");
+    mvprintw(center_y + 1, center_x - 12, "╚═══════════════════╝");
+    attroff(COLOR_PAIR(COLOR_WIN) | A_BOLD);
+    
+    attron(COLOR_PAIR(COLOR_MENU));
+    mvprintw(center_y + 3, center_x - 12, "Score final: %d", game->score);
+    mvprintw(center_y + 5, center_x - 18, "Appuyez sur R pour recommencer");
+    mvprintw(center_y + 6, center_x - 15, "ou Q pour quitter");
+    attroff(COLOR_PAIR(COLOR_MENU));
+}
+
+/**
+ * @brief Affiche l'écran de pause
+ */
+static void draw_pause(void) {
+    int center_y = LINES / 2;
+    int center_x = COLS / 2;
+    
+    attron(COLOR_PAIR(COLOR_PAUSE) | A_BOLD);
+    mvprintw(center_y - 1, center_x - 8, "╔═══════════╗");
+    mvprintw(center_y,     center_x - 8, "║  PAUSE    ║");
+    mvprintw(center_y + 1, center_x - 8, "╚═══════════╝");
+    attroff(COLOR_PAIR(COLOR_PAUSE) | A_BOLD);
+    
+    attron(COLOR_PAIR(COLOR_MENU));
+    mvprintw(center_y + 3, center_x - 12, "Appuyez sur P pour continuer");
+    attroff(COLOR_PAIR(COLOR_MENU));
+}
+
+/* ============================================================================
+ * FONCTIONS PUBLIQUES
+ * ============================================================================ */
+
+void init_ncurses(void) {
     initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE); // Ne bloque pas le programme
-    curs_set(0);           // Cache le curseur clignotant
-
-    // Initialisation des couleurs si le terminal le supporte
+    nodelay(stdscr, TRUE);
+    curs_set(0);
+    
+    // Vérifier taille minimale
+    if (LINES < 24 || COLS < 80) {
+        endwin();
+        fprintf(stderr, "Terminal trop petit! Minimum: 80x24, actuel: %dx%d\n", 
+                COLS, LINES);
+        exit(1);
+    }
+    
+    // Initialiser les couleurs
     if (has_colors()) {
         start_color();
-        init_pair(COL_PLAYER, COLOR_GREEN, COLOR_BLACK);
-        init_pair(COL_ENEMY, COLOR_RED, COLOR_BLACK);
-        init_pair(COL_BULLET, COLOR_YELLOW, COLOR_BLACK);
-        init_pair(COL_SHIELD, COLOR_GREEN, COLOR_BLACK);
-        init_pair(COL_TEXT, COLOR_CYAN, COLOR_BLACK);
+        init_pair(COLOR_PLAYER, COLOR_GREEN, COLOR_BLACK);
+        init_pair(COLOR_ENEMY, COLOR_RED, COLOR_BLACK);
+        init_pair(COLOR_BULLET, COLOR_CYAN, COLOR_BLACK);
+        init_pair(COLOR_ENEMY_BULLET, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(COLOR_SHIELD, COLOR_MAGENTA, COLOR_BLACK);
+        init_pair(COLOR_HUD, COLOR_WHITE, COLOR_BLACK);
+        init_pair(COLOR_BORDER, COLOR_BLUE, COLOR_BLACK);
+        init_pair(COLOR_TITLE, COLOR_GREEN, COLOR_BLACK);
+        init_pair(COLOR_MENU, COLOR_WHITE, COLOR_BLACK);
+        init_pair(COLOR_GAME_OVER, COLOR_RED, COLOR_BLACK);
+        init_pair(COLOR_WIN, COLOR_GREEN, COLOR_BLACK);
+        init_pair(COLOR_PAUSE, COLOR_YELLOW, COLOR_BLACK);
     }
 }
 
-void close_ncurses_view() {
+void cleanup_ncurses(void) {
     endwin();
 }
 
-int get_ncurses_input() {
-    return getch();
-}
-
-// --- ECRAN D'ACCUEIL ---
-void draw_menu_ncurses(GameState *game) {
+void render_ncurses(GameState *game) {
     clear();
     
-    int cx = game->width / 2;
-    int cy = game->height / 2;
-
-    attron(COLOR_PAIR(COL_TEXT));
-    mvprintw(cy - 4, cx - 7, "SPACE INVADERS");
-    
-    // Simuler le bouton "JOUER"
-    mvprintw(cy, cx - 10, "[ ENTREE ]  JOUER");
-    
-    // Simuler le bouton "QUITTER"
-    mvprintw(cy + 2, cx - 10, "[ ECHAP  ]  QUITTER");
-    attroff(COLOR_PAIR(COL_TEXT));
-
-    refresh();
-}
-
-// --- ECRAN MENU PAUSE ---
-void draw_pause_ncurses(GameState *game) {
-    clear();
-    
-    int cx = game->width / 2;
-    int cy = game->height / 2;
-
-    attron(COLOR_PAIR(COL_TEXT));
-    mvprintw(cy - 4, cx - 3, "PAUSE");
-    
-    mvprintw(cy, cx - 12, "[ ENTREE ]  RECOMMENCER");
-    mvprintw(cy + 2, cx - 12, "[ ECHAP  ]  REPRENDRE"); // Ou quitter selon ta logique
-    mvprintw(cy + 4, cx - 12, "[ A      ]  QUITTER");    // Si tu veux une autre touche pour quitter
-    attroff(COLOR_PAIR(COL_TEXT));
-
-    refresh();
-}
-
-// --- ECRAN DE JEU ---
-void draw_game_ncurses(GameState *game) {
-    clear();
-    
-    // 1. HUD (Score et Vies)
-    attron(COLOR_PAIR(COL_TEXT));
-    mvprintw(0, 1, "SCORE: %d", game->score);
-    // Vérifie si ta variable s'appelle 'lives' ou 'nb_lives' dans model.h
-    mvprintw(0, game->width - 12, "LIVES: %d", game->nb_lives); 
-    
-    // Ligne de séparation
-    for(int x=0; x<game->width; x++) mvaddch(1, x, '_');
-    attroff(COLOR_PAIR(COL_TEXT));
-
-    if(game->game_over) {
-        mvprintw(game->height/2, game->width/2 - 5, "GAME OVER");
-        refresh();
-        return;
-    }
-
-    // 2. Joueur (Vert)
-    attron(COLOR_PAIR(COL_PLAYER));
-    // On dessine un petit vaisseau '^'
-    mvaddch(game->player.y, game->player.x, '^');
-    attroff(COLOR_PAIR(COL_PLAYER));
-
-    // 3. Ennemis (Rouge)
-    attron(COLOR_PAIR(COL_ENEMY));
-    for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
-        if (game->enemies[i].alive) {
-            char sprite = 'W'; // Par défaut
+    switch (game->currView) {
+        case ACCUEIL:
+            draw_menu_accueil();
+            break;
             
-            // On change le caractère selon le type
-            switch(game->enemies[i].type) {
-                case SQUID:   sprite = 'o'; break; // Petit
-                case CRABS:    sprite = 'x'; break; // Moyen
-                case OCTOPUS: sprite = 'M'; break; // Gros
-            }
-            mvaddch(game->enemies[i].y, game->enemies[i].x, sprite);
-        }
+        case JEU:
+            draw_hud(game);
+            draw_border(game->height, game->width);
+            draw_shields(game);
+            draw_enemies(game);
+            draw_enemy_bullets(game);
+            draw_bullets(game);
+            draw_player(game);
+            break;
+            
+        case MENU_JEU:
+            draw_hud(game);
+            draw_border(game->height, game->width);
+            draw_shields(game);
+            draw_enemies(game);
+            draw_enemy_bullets(game);
+            draw_bullets(game);
+            draw_player(game);
+            draw_pause();
+            break;
+            
+        case MENU_PERD:
+            draw_menu_perd(game);
+            break;
+            
+        case MENU_GAGNE:
+            draw_menu_gagne(game);
+            break;
+            
+        default:
+            break;
     }
-    attroff(COLOR_PAIR(COL_ENEMY));
-
-    // 4. Boucliers (Vert)
-    attron(COLOR_PAIR(COL_SHIELD));
-    for (int i = 0; i < MAX_SHIELD_BRICKS; i++) {
-        if (game->shields[i].active) {
-            // '#' représente une brique de bouclier
-            mvaddch((int)game->shields[i].y, (int)game->shields[i].x, '#');
-        }
-    }
-    attroff(COLOR_PAIR(COL_SHIELD));
-
-    // 5. Balles Joueur (Jaune)
-    attron(COLOR_PAIR(COL_BULLET));
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (game->bullets[i].active) 
-            mvaddch(game->bullets[i].y, game->bullets[i].x, '|');
-    }
-    attroff(COLOR_PAIR(COL_BULLET));
     
-    // 6. Balles Ennemis (Blanc ou Rouge)
-    for (int i = 0; i < MAX_ENEMY_BULLETS; i++) {
-        if (game->enemy_bullets[i].active) 
-            mvaddch(game->enemy_bullets[i].y, game->enemy_bullets[i].x, '!');
-    }
-
     refresh();
 }
 
-// Fonction Principale (Aiguilleur)
-void draw_ncurses_view(GameState *game) {
-    if (game->currView == ACCUEIL) {
-        draw_menu_ncurses(game);
-    } 
-    else if (game->currView == MENU_JEU) {
-        draw_pause_ncurses(game);
+int handle_input_ncurses(GameState *game) {
+    int ch = getch();
+    
+    if (ch == ERR) {
+        return 1; // Pas d'entrée
     }
-    else {
-        draw_game_ncurses(game);
+    
+    // Commandes globales
+    if (ch == 'q' || ch == 'Q') {
+        return 0; // Quitter
     }
+    
+    switch (game->currView) {
+        case ACCUEIL:
+            if (ch == '\n' || ch == KEY_ENTER) {
+                game->currView = JEU;
+            }
+            break;
+            
+        case JEU:
+            if (ch == KEY_LEFT) {
+                player_move(game, -1);
+            } else if (ch == KEY_RIGHT) {
+                player_move(game, 1);
+            } else if (ch == ' ') {
+                player_shoot(game);
+            } else if (ch == 'p' || ch == 'P') {
+                game->currView = MENU_JEU;
+            }
+            break;
+            
+        case MENU_JEU:
+            if (ch == 'p' || ch == 'P') {
+                game->currView = JEU;
+            }
+            break;
+            
+        case MENU_PERD:
+        case MENU_GAGNE:
+            if (ch == 'r' || ch == 'R') {
+                init_model(game, game->width, game->height, 0);
+                game->currView = JEU;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return 1; // Continuer
 }
