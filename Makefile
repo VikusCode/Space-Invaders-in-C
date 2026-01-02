@@ -7,69 +7,33 @@ install_NC:
 	sudo apt-get install -y libncurses5-dev libncursesw5-dev
 	@echo "Installation de ncurses terminée !"
 
-install_system_deps:
-	@echo "🛠️  Installation des dépendances système (Drivers, CMake, formats audio)..."
+install_ubuntu:
+	@echo "🛠️  Installation dépendances Ubuntu..."
 	sudo apt-get update
-	sudo apt-get install -y build-essential cmake git
-	# Dépendances complètes pour l'affichage et le son
+	sudo apt-get install -y build-essential cmake git libncurses5-dev libncursesw5-dev
+	# Dépendances audio/vidéo complètes
 	sudo apt-get install -y libasound2-dev libpulse-dev \
 	                        libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
 	                        libxi-dev libxinerama-dev libxss-dev libxtst-dev \
 	                        libxxf86vm-dev libxfixes-dev libxrender-dev \
 	                        libwayland-dev libxkbcommon-dev
-	# Dépendances pour les formats audio (MP3, OGG, FLAC) pour le Mixer
 	sudo apt-get install -y libflac-dev libvorbis-dev libopus-dev libmpg123-dev libogg-dev
 
-# 2. Compiler et Installer SDL3
-install_sdl3:
-	@echo "🚀 Compilation et Installation de SDL3..."
-	# On nettoie, on configure, on compile et on installe
+install_libs_source:
+	@echo "🚀 Compilation SDL3 depuis la source..."
 	cd $(SDL_PATH) && rm -rf build && mkdir build && cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release .. && \
 	make -j$$(nproc) && \
 	sudo make install
-
-# 3. Compiler et Installer SDL_mixer
-install_sdl_mixer:
-	@echo "🎵 Compilation et Installation de SDL_mixer..."
+	@echo "🎵 Compilation SDL_mixer depuis la source..."
 	cd $(MIXER_PATH) && rm -rf build && mkdir build && cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release .. && \
 	make -j$$(nproc) && \
 	sudo make install
-
-# 4. Mettre à jour les liens dynamiques (Pour que Linux trouve les fichiers .so)
-refresh_libs:
-	@echo "🔄 Mise à jour du cache des librairies..."
 	sudo ldconfig
-	@echo "✅ Installation complète terminée avec succès !"
+	@echo "✅ Tout est installé !"
 
-install_full: install_NC install_system_deps install_sdl3 install_sdl_mixer refresh_libs
-
-install_deps_fedora:
-	@echo "🤠 Installation des dépendances Ncurses pour Fedora..."
-	sudo dnf check-update || true
-	sudo dnf install -y ncurses-devel
-	@echo "✅ Ncurses installé."
-
-# 2. Installation Complète (Outils système + SDL3 + Mixer depuis la source)
-install_full_fedora: install_sys_fedora install_sdl3 install_sdl_mixer refresh_libs
-
-install_sys_fedora:
-	@echo "🤠 Installation des outils de compilation et drivers audio/vidéo..."
-	# Outils de base (GCC, Make, CMake, Git)
-	sudo dnf install -y gcc gcc-c++ make cmake git
-	
-	# Dépendances graphiques (X11, Wayland)
-	sudo dnf install -y libX11-devel libXext-devel libXrandr-devel \
-	                    libXcursor-devel libXi-devel libXinerama-devel \
-	                    wayland-devel libxkbcommon-devel \
-	                    libXScrnSaver-devel libXtst-devel
-	
-	# Dépendances Audio (ALSA, PulseAudio, Pipewire)
-	sudo dnf install -y alsa-lib-devel pulseaudio-libs-devel pipewire-devel
-	
-	# Codecs Audio pour SDL_mixer (MP3, OGG, FLAC)
-	sudo dnf install -y flac-devel libvorbis-devel opus-devel mpg123-devel libogg-devel
+install_full_ubuntu: install_NC install_ubuntu install_libs_source
 
 # Lancement de programme
 CC = gcc
@@ -87,7 +51,7 @@ LIBS_NC = -lncurses
 EXE_FINAL_NC = $(EXE_BUILD)/gameNC
 EXE_FINAL_SDL = $(EXE_BUILD)/gameSDL
 
-all: create_build run_principal 
+all: $(install_full) create_build run_principal 
 
 create_build:
 	@mkdir -p $(EXE_BUILD)
