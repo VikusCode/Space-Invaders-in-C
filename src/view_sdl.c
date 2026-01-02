@@ -496,8 +496,6 @@ void draw_sdl_view(GameState *game) {
     } else if (game->currView == MENU_GAGNE) {
         draw_win_view(game);       
     } else if (game->currView == MENU_PERD) {
-        game->track_music = NULL;
-        game->audio_music = NULL;
         draw_lose_view(game);      
     }
     SDL_RenderPresent(rend);
