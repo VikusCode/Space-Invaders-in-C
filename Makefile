@@ -85,7 +85,7 @@ LIBS_NC = -lncurses
 EXE_FINAL_NC = $(EXE_BUILD)/gameNC
 EXE_FINAL_SDL = $(EXE_BUILD)/gameSDL
 
-all: install_NC create_build run_principal 
+all: create_build run_principal install_deps_fedora
 
 create_build:
 	@mkdir -p $(EXE_BUILD)
