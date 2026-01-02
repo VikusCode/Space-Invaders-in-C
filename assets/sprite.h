@@ -1,6 +1,6 @@
 #pragma once
 
-const int letters[26][15] = {
+static const int letters[26][15] = {
         {0,1,0, 1,0,1, 1,1,1, 1,0,1, 1,0,1}, // A
         {1,1,0, 1,0,1, 1,1,0, 1,0,1, 1,1,0}, // B
         {0,1,1, 1,0,0, 1,0,0, 1,0,0, 0,1,1}, // C
@@ -30,7 +30,7 @@ const int letters[26][15] = {
     };
 
 // Le "Calamar" (Ligne du haut)
-const int sprite_squid[8][11] = {
+static const int sprite_squid[8][11] = {
     {0,0,0,0,1,1,1,0,0,0,0},
     {0,0,0,1,1,1,1,1,0,0,0},
     {0,0,1,1,1,1,1,1,1,0,0},
@@ -41,8 +41,16 @@ const int sprite_squid[8][11] = {
     {0,0,0,1,0,0,0,1,0,0,0}
 };
 
+// Le bouclier
+static int shape[4][5] = {
+        {0, 1, 1, 1, 0}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 1, 1, 1}, 
+        {1, 1, 0, 1, 1}
+    };
+
 // Le "Crabe" (Milieu)
-const int sprite_crab[8][11] = {
+static const int sprite_crab[8][11] = {
     {0,0,1,0,0,0,0,0,1,0,0},
     {0,0,0,1,0,0,0,1,0,0,0},
     {0,0,1,1,1,1,1,1,1,0,0},
@@ -54,7 +62,7 @@ const int sprite_crab[8][11] = {
 };
 
 // Le "Poulpe" (Bas)
-const int sprite_octopus[8][11] = {
+static const int sprite_octopus[8][11] = {
     {0,0,0,0,1,1,1,0,0,0,0},
     {0,0,0,1,1,1,1,1,0,0,0},
     {0,0,1,1,1,1,1,1,1,0,0},
@@ -66,7 +74,7 @@ const int sprite_octopus[8][11] = {
 };
 
 // Le Vaisseau du Joueur (Un peu plus large : 13x8)
-const int sprite_player[8][13] = {
+static const int sprite_player[8][13] = {
     {0,0,0,0,0,0,1,0,0,0,0,0,0},
     {0,0,0,0,0,1,1,1,0,0,0,0,0},
     {0,0,0,0,0,1,1,1,0,0,0,0,0},
@@ -77,7 +85,7 @@ const int sprite_player[8][13] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-const int font[10][15] = {
+static const int font[10][15] = {
         {1,1,1, 1,0,1, 1,0,1, 1,0,1, 1,1,1}, // 0
         {0,1,0, 0,1,0, 0,1,0, 0,1,0, 0,1,0}, // 1
         {1,1,1, 0,0,1, 1,1,1, 1,0,0, 1,1,1}, // 2

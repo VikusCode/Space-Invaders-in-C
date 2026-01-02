@@ -3,7 +3,7 @@
 
 #include <SDL3/SDL.h>
 #include "../include/view_sdl.h"
-#include "../assets/draw.h"
+#include "../assets/sprite.h"
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *rend = NULL; 
@@ -15,7 +15,10 @@ void convert_mouse_coordinates(float *x, float *y) {
 }
 
 int init_sdl_view(GameState *game) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) return 0; // Utilise 0 pour échec
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+    printf("Erreur SDL_Init : %s\n", SDL_GetError());
+    return 0; 
+    }
 
     game->currView = ACCUEIL;
 
@@ -424,6 +427,37 @@ void draw_game_view(GameState *game) {
     
     SDL_RenderPresent(rend);
 }
+
+// void init_audio(GameState *game) {
+//     // 1. Ouvrir le périphérique audio
+//     // Fréquence 44100Hz, format par défaut, 2 canaux (stéréo), chunk size 2048
+//     if (Mix_OpenAudio(0, NULL) < 0) { // SDL3 style
+//         printf("Erreur Audio: %s\n", SDL_GetError());
+//         return;
+//     }
+
+//     // 2. Charger la Musique (Format long : MP3, OGG)
+//     game->bg_music = Mix_LoadMUS("assets/music.mp3");
+    
+//     // 3. Charger les Effets Sonores (Format court : WAV)
+//     game->snd_shoot = Mix_LoadWAV("assets/shoot.wav");
+//     game->snd_explosion = Mix_LoadWAV("assets/explosion.wav");
+//     game->snd_gameover = Mix_LoadWAV("assets/gameover.wav");
+
+//     // 4. Lancer la musique de fond en boucle (-1 = infini)
+//     if (game->bg_music) {
+//         Mix_PlayMusic(game->bg_music, -1);
+//         Mix_VolumeMusic(32); // Volume bas (0-128)
+//     }
+// }
+
+// void cleanup_audio(GameState *game) {
+//     Mix_FreeMusic(game->bg_music);
+//     Mix_FreeChunk(game->snd_shoot);
+//     Mix_FreeChunk(game->snd_explosion);
+//     Mix_FreeChunk(game->snd_gameover);
+//     Mix_CloseAudio();
+// }
 
 void draw_sdl_view(GameState *game) {
     if (game->currView == ACCUEIL)       draw_menu_view(game);

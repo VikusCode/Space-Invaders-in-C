@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+// #include <SDL3/SDL.h>
+// #include <SDL3/SDL_mixer.h>
+
 // --- Constantes ---
 #define MAX_BULLETS 10
 #define MAX_ENEMY_BULLETS 20
@@ -72,6 +75,11 @@ typedef struct {
     VueState currView;
     
     int canShoot; //pour tirer une seule balle par une seule
+
+    // Mix_Music *bg_music;      // Musique de fond (MP3/OGG)
+    // Mix_Chunk *snd_shoot;     // Bruit de tir (WAV)
+    // Mix_Chunk *snd_explosion; // Bruit d'ennemi tué (WAV)
+    // Mix_Chunk *snd_gameover;  // Son de défaite (WAV)
 
     int width;
     int height;

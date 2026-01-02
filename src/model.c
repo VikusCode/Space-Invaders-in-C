@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "../include/model.h"
 #include "../include/view_ncurses.h"
+#include "../assets/sprite.h"
 
 int cpt_alive;
 
@@ -41,28 +42,21 @@ void init_model(GameState *game, int width, int height, int score) {
             game->enemies[idx].x = start_x + (col * dynamic_spacing);
             game->enemies[idx].y = start_y + (row * 2); 
             
-            // --- MODE TEST : UN SEUL ENNEMI ---
-            if (idx == 0) { 
-                game->enemies[idx].alive = 1; 
-            } else {
-                game->enemies[idx].alive = 0;
-            }
-            // ----------------------------------
-
-            // Types
+            // // --- pour avoir un seul ennemi pour les tests ---
+            // if (idx == 0) { 
+            //     game->enemies[idx].alive = 1; 
+            // } else {
+            //     game->enemies[idx].alive = 0;
+            // }
+            // // ----------------------------------
+            game->enemies[idx].alive = 1;
+            
+            // Assignation des types
             if (row == 0) game->enemies[idx].type = SQUID;
             else if (row == 1 || row == 2) game->enemies[idx].type = CRABS;
             else game->enemies[idx].type = OCTOPUS;
         }
     }
-
-    // --- INIT BOUCLIERS ---
-    int shape[4][5] = {
-        {0, 1, 1, 1, 0}, 
-        {1, 1, 1, 1, 1}, 
-        {1, 1, 1, 1, 1}, 
-        {1, 1, 0, 1, 1}
-    };
 
     for(int i=0; i<MAX_SHIELD_BRICKS; i++) game->shields[i].active = 0;
 
@@ -285,9 +279,9 @@ void check_collisions(GameState *game) {
                     game->enemies[j].alive = 0;
                     game->bullets[i].active = 0;
                     game->canShoot = 0; //le joueur peut tirer
-                    if (game->enemies[j].type == CRABS) game->score += 10;
+                    if (game->enemies[j].type == CRABS) game->score += 20;
                     else if (game->enemies[j].type == SQUID) game->score += 40;
-                    else game->score += 20;
+                    else game->score += 10;
                 }
             }
         }

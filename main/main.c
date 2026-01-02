@@ -12,7 +12,7 @@
 #define GRID_WIDTH 80
 #define GRID_HEIGHT 40
 
-int main(int argc, char const *argv[])
+int main()
 {
     char a;
     printf("Version SDL ou NC ? s pour SDL, n pour NCurse \n");
