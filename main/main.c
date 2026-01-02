@@ -52,7 +52,7 @@ int main()
         
         draw_sdl_view(&game);
         
-        SDL_Delay(16); // au plus c'esdt bas plus ca trace
+        SDL_Delay(16); // au plus c'est bas plus ca trace
     }
 
     cleanup_audio(&game); //nouvelle fonction ajoutee
@@ -79,10 +79,10 @@ int main()
             if (game.currView == JEU) {
                 update_bullets(&game);
                 update_enemies(&game);
+                enemy_shoot(&game);
                 check_collisions(&game);
             }
             
-            // Petit délai pour ne pas utiliser 100% du CPU
             napms(16); // ~60 FPS
         }
         

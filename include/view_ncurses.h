@@ -54,6 +54,8 @@ void cleanup_ncurses(void);
  */
 void render_ncurses(GameState *game);
 
+
+
 // /**
 //  * @brief Gère les entrées clavier
 //  * @param game Pointeur vers l'état du jeu
