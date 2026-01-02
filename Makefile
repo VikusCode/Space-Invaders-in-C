@@ -11,9 +11,11 @@ install_system_deps:
 	@echo "🛠️  Installation des dépendances système (Drivers, CMake, formats audio)..."
 	sudo apt-get update
 	sudo apt-get install -y build-essential cmake git
-	# Dépendances pour l'affichage et le son (PulseAudio, X11, Wayland)
-	sudo apt-get install -y libasound2-dev libpulse-dev libx11-dev libxext-dev \
-	                        libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev \
+	# Dépendances complètes pour l'affichage et le son
+	sudo apt-get install -y libasound2-dev libpulse-dev \
+	                        libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
+	                        libxi-dev libxinerama-dev libxss-dev libxtst-dev \
+	                        libxxf86vm-dev libxfixes-dev libxrender-dev \
 	                        libwayland-dev libxkbcommon-dev
 	# Dépendances pour les formats audio (MP3, OGG, FLAC) pour le Mixer
 	sudo apt-get install -y libflac-dev libvorbis-dev libopus-dev libmpg123-dev libogg-dev
@@ -69,7 +71,7 @@ install_sys_fedora:
 	# Codecs Audio pour SDL_mixer (MP3, OGG, FLAC)
 	sudo dnf install -y flac-devel libvorbis-devel opus-devel mpg123-devel libogg-devel
 
-# Lancemeent de programme
+# Lancement de programme
 CC = gcc
 
 # Dossier
@@ -85,7 +87,7 @@ LIBS_NC = -lncurses
 EXE_FINAL_NC = $(EXE_BUILD)/gameNC
 EXE_FINAL_SDL = $(EXE_BUILD)/gameSDL
 
-all: create_build run_principal install_deps_fedora
+all: create_build run_principal 
 
 create_build:
 	@mkdir -p $(EXE_BUILD)
