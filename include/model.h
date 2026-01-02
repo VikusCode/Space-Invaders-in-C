@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 
-// #include <SDL3/SDL.h>
-// #include <SDL3/SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 // --- Constantes ---
 #define MAX_BULLETS 10
@@ -70,16 +70,23 @@ typedef struct {
     bool isSDL;
     bool isNC; //savoir si c'est sdl ou NC ca
 
-    bool pause; //si true alors = pause ca sert pour le afficher le menu dans le in game
-
     VueState currView;
     
     int canShoot; //pour tirer une seule balle par une seule
+    
+    MIX_Mixer *mixerDevice;
+    
+    // Musique de fond
+    MIX_Audio *audio_music;
+    MIX_Track *track_music;
 
-    // Mix_Music *bg_music;      // Musique de fond (MP3/OGG)
-    // Mix_Chunk *snd_shoot;     // Bruit de tir (WAV)
-    // Mix_Chunk *snd_explosion; // Bruit d'ennemi tué (WAV)
-    // Mix_Chunk *snd_gameover;  // Son de défaite (WAV)
+    // Bruitage Tir
+    MIX_Audio *audio_shoot;
+    MIX_Track *track_shoot;
+
+    // Bruitage Explosion / Mort
+    MIX_Audio *audio_explosion;
+    MIX_Track *track_explosion;
 
     int width;
     int height;
@@ -92,5 +99,6 @@ void enemy_shoot(GameState *game);
 void check_collisions(GameState *game);
 void player_shoot(GameState *game);
 void player_move(GameState *game, int direction);
+
 
 #endif

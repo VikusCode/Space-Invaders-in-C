@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include <SDL3/SDL.h>
+#include "../include/model.h"
 #include "../include/view_sdl.h"
 #include "../assets/sprite.h"
 
@@ -428,45 +429,77 @@ void draw_game_view(GameState *game) {
     SDL_RenderPresent(rend);
 }
 
-// void init_audio(GameState *game) {
-//     // 1. Ouvrir le périphérique audio
-//     // Fréquence 44100Hz, format par défaut, 2 canaux (stéréo), chunk size 2048
-//     if (Mix_OpenAudio(0, NULL) < 0) { // SDL3 style
-//         printf("Erreur Audio: %s\n", SDL_GetError());
-//         return;
-//     }
+//nouvelle fonction
+int init_audio(GameState *game) {
+    // 1. Init de la librairie Mixer
+    if (!MIX_Init()) {
+        SDL_Log("MIX_Init failed: %s", SDL_GetError());
+        return 0;
+    }
 
-//     // 2. Charger la Musique (Format long : MP3, OGG)
-//     game->bg_music = Mix_LoadMUS("assets/music.mp3");
+    // 2. Création du Device
+    game->mixerDevice = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+    if (!game->mixerDevice) {
+        SDL_Log("MIX_CreateMixerDevice Error: %s", SDL_GetError());
+        return 0;
+    }
+
+    // --- CHARGEMENT MUSIQUE ---
+    game->audio_music = MIX_LoadAudio(game->mixerDevice, "assets/music.mp3", true);
+    if (game->audio_music) {
+        game->track_music = MIX_CreateTrack(game->mixerDevice);
+        MIX_SetTrackAudio(game->track_music, game->audio_music);
+        // Lancer la musique en boucle (-1)
+        MIX_PlayTrack(game->track_music, -1);
+    }
+
+    // --- CHARGEMENT SON TIR ---
+    game->audio_shoot = MIX_LoadAudio(game->mixerDevice, "assets/shoot.wav", true);
+    if (game->audio_shoot) {
+        game->track_shoot = MIX_CreateTrack(game->mixerDevice);
+        MIX_SetTrackAudio(game->track_shoot, game->audio_shoot);
+    }
+
+    // --- CHARGEMENT SON EXPLOSION ---
+    game->audio_explosion = MIX_LoadAudio(game->mixerDevice, "assets/explosion.wav", true);
+    if (game->audio_explosion) {
+        game->track_explosion = MIX_CreateTrack(game->mixerDevice);
+        MIX_SetTrackAudio(game->track_explosion, game->audio_explosion);
+    }
     
-//     // 3. Charger les Effets Sonores (Format court : WAV)
-//     game->snd_shoot = Mix_LoadWAV("assets/shoot.wav");
-//     game->snd_explosion = Mix_LoadWAV("assets/explosion.wav");
-//     game->snd_gameover = Mix_LoadWAV("assets/gameover.wav");
+    return 1;
+}
 
-//     // 4. Lancer la musique de fond en boucle (-1 = infini)
-//     if (game->bg_music) {
-//         Mix_PlayMusic(game->bg_music, -1);
-//         Mix_VolumeMusic(32); // Volume bas (0-128)
-//     }
-// }
+// nouvelle fonction
+void cleanup_audio(GameState *game) {
+    if (game->track_music) MIX_DestroyTrack(game->track_music);
+    if (game->audio_music) MIX_DestroyAudio(game->audio_music);
 
-// void cleanup_audio(GameState *game) {
-//     Mix_FreeMusic(game->bg_music);
-//     Mix_FreeChunk(game->snd_shoot);
-//     Mix_FreeChunk(game->snd_explosion);
-//     Mix_FreeChunk(game->snd_gameover);
-//     Mix_CloseAudio();
-// }
+    if (game->track_shoot) MIX_DestroyTrack(game->track_shoot);
+    if (game->audio_shoot) MIX_DestroyAudio(game->audio_shoot);
+
+    if (game->track_explosion) MIX_DestroyTrack(game->track_explosion);
+    if (game->audio_explosion) MIX_DestroyAudio(game->audio_explosion);
+
+    if (game->mixerDevice) MIX_DestroyMixer(game->mixerDevice);
+}
 
 void draw_sdl_view(GameState *game) {
-    if (game->currView == ACCUEIL)       draw_menu_view(game);
-    else if (game->currView == INSTRUCTION) draw_instructions(game); // <--- Ici
-    else if (game->currView == JEU)      draw_game_view(game);
-    else if (game->currView == MENU_JEU) draw_pause_menu(game);
-    else if (game->currView == MENU_GAGNE) draw_win_view(game);       // <--- Ici
-    else if (game->currView == MENU_PERD) draw_lose_view(game);      // <--- Ici
-    
+    if (game->currView == ACCUEIL) {
+        draw_menu_view(game);
+    } else if (game->currView == INSTRUCTION) { 
+        draw_instructions(game); 
+    }else if (game->currView == JEU) {     
+        draw_game_view(game); 
+    } else if (game->currView == MENU_JEU) { 
+        draw_pause_menu(game); 
+    } else if (game->currView == MENU_GAGNE) {
+        draw_win_view(game);       
+    } else if (game->currView == MENU_PERD) {
+        game->track_music = NULL;
+        game->audio_music = NULL;
+        draw_lose_view(game);      
+    }
     SDL_RenderPresent(rend);
 }
 
