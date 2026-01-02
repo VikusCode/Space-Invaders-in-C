@@ -55,8 +55,7 @@ install_full_fedora: install_sys_fedora install_sdl3 install_sdl_mixer refresh_l
 install_sys_fedora:
 	@echo "🤠 Installation des outils de compilation et drivers audio/vidéo..."
 	# Outils de base (GCC, Make, CMake, Git)
-	sudo dnf groupinstall -y "Development Tools"
-	sudo dnf install -y cmake git
+	sudo dnf install -y gcc gcc-c++ make cmake git
 	
 	# Dépendances graphiques (X11, Wayland)
 	sudo dnf install -y libX11-devel libXext-devel libXrandr-devel \
