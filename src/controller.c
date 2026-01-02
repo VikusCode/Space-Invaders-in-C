@@ -7,7 +7,6 @@
 #include "../include/model.h"
 
 SDL_Event event;
-bool pause = false;
 void handle_event(GameState *game, int *running) {
     while (SDL_PollEvent(&event)) {
         if (game->isSDL) {
@@ -162,6 +161,10 @@ void handle_event(GameState *game, int *running) {
                                 init_model(game, game->width, game->height, score_init);
                                 game->currView = JEU;
                                 game->isSDL = 1; 
+
+                                if (game->track_music) {
+                                    MIX_ResumeTrack(game->track_music);
+                                }
                                 break;
                             case SDLK_RETURN2:
                                 init_model(game, game->width, game->height, score_init);

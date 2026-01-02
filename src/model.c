@@ -93,6 +93,9 @@ void player_shoot(GameState *game) {
             game->bullets[i].y = game->player.y - 1;
             game->bullets[i].active = 1;
             game->canShoot = 1;
+            if (game->isSDL && game->track_shoot) {
+                MIX_PlayTrack(game->track_shoot, 0);
+            }
             break;
         }
     }
@@ -279,6 +282,9 @@ void check_collisions(GameState *game) {
                     game->enemies[j].alive = 0;
                     game->bullets[i].active = 0;
                     game->canShoot = 0; //le joueur peut tirer
+                    if (game->isSDL && game->track_explosion) { //nouveau if
+                        MIX_PlayTrack(game->track_explosion, 0);
+                    }
                     if (game->enemies[j].type == CRABS) game->score += 20;
                     else if (game->enemies[j].type == SQUID) game->score += 40;
                     else game->score += 10;
@@ -295,6 +301,13 @@ void check_collisions(GameState *game) {
                     game->enemy_bullets[i].active = 0;
                     if (game->nb_lives > 0) game->nb_lives--; // baisser la vie de notre vaisseau
                     if (game->nb_lives <= 0) {
+                        if (game->isSDL && game->track_music) {
+                            MIX_PauseTrack(game->track_music); 
+                        }
+                        if (game->isSDL && game->track_explosion) { //nouveau if
+                            MIX_PlayTrack(game->track_explosion, 0);
+                        }
+                        
                         game->game_over = 1;
                         game->currView = MENU_PERD;
                     }

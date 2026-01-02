@@ -18,7 +18,7 @@ int main() {
     
     GameState game;
     // On utilise COLS et LINES fournis par ncurses
-    init_model(&game, COLS, LINES);
+    init_model(&game, COLS, LINES, score_init);
     game.isSDL = 0; // Important : indique au modèle qu'on n'est pas en SDL
 
     int running = 1;
@@ -68,7 +68,7 @@ int main() {
             // --- MENU PAUSE (MENU_JEU) ---
             else if (game.currView == MENU_JEU) {
                 if (ch == '\n' || ch == KEY_ENTER) { // Entrée -> Recommencer
-                    init_model(&game, COLS, LINES);
+                    init_model(&game, COLS, LINES, score_init);
                     game.currView = JEU;
                     game.isSDL = 0;
                 }
