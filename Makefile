@@ -60,7 +60,8 @@ install_sys_fedora:
 	# Dépendances graphiques (X11, Wayland)
 	sudo dnf install -y libX11-devel libXext-devel libXrandr-devel \
 	                    libXcursor-devel libXi-devel libXinerama-devel \
-	                    wayland-devel libxkbcommon-devel
+	                    wayland-devel libxkbcommon-devel \
+	                    libXScrnSaver-devel
 	
 	# Dépendances Audio (ALSA, PulseAudio, Pipewire)
 	sudo dnf install -y alsa-lib-devel pulseaudio-libs-devel pipewire-devel
