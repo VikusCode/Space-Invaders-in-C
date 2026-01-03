@@ -12,10 +12,6 @@
 #include "../include/model.h"
 #include "../assets/sprite.h"
 
-/* ============================================================================
- * FONCTIONS PRIVÉES - AFFICHAGE DES ÉLÉMENTS
- * ============================================================================ */
-
 /**
  * @file view_ncurses.c
  * @brief Vue ncurses : dessin et affichage pour la version terminal.
@@ -153,10 +149,6 @@ static void draw_border(int height, int width) {
     attroff(COLOR_PAIR(COLOR_BORDER));
 }
 
-/* ============================================================================
- * FONCTIONS PRIVÉES - MENUS ET ÉCRANS
- * ============================================================================ */
-
 /**
  * @brief Affiche l'écran d'accueil
  */
@@ -258,10 +250,6 @@ static void draw_pause(void) {
     mvprintw(center_y + 3, center_x - 12, "Appuyez sur P pour continuer");
     attroff(COLOR_PAIR(COLOR_MENU));
 }
-
-/* ============================================================================
- * FONCTIONS PUBLIQUES
- * ============================================================================ */
 
 /**
  * @brief Initialise la bibliothèque ncurses et les couleurs.
