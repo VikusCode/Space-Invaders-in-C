@@ -157,7 +157,7 @@ static void draw_menu_accueil(void) {
     int center_y = LINES / 2;
     int center_x = COLS / 2;
     
-    erase();
+    clear();
     
     attron(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
     mvprintw(center_y - 6, center_x - 15, "╔═══════════════════════════════╗");
@@ -193,7 +193,7 @@ static void draw_menu_perd(GameState *game) {
     int center_y = LINES / 2;
     int center_x = COLS / 2;
     
-    erase();
+    clear();
     
     attron(COLOR_PAIR(COLOR_GAME_OVER) | A_BOLD);
     mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
@@ -217,7 +217,7 @@ static void draw_menu_gagne(GameState *game) {
     int center_y = LINES / 2;
     int center_x = COLS / 2;
     
-    erase();
+    clear();
     
     attron(COLOR_PAIR(COLOR_WIN) | A_BOLD);
     mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
@@ -295,7 +295,7 @@ void cleanup_ncurses(void) {
 }
 
 void render_ncurses(GameState *game) {
-    erase();
+    clear();
     
     switch (game->currView) {
         case ACCUEIL:
@@ -334,6 +334,7 @@ void render_ncurses(GameState *game) {
         default:
             break;
     }
+    usleep(16666);
     
     refresh();
 }
