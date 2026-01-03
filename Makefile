@@ -5,6 +5,7 @@ CC = gcc
 SRC_DIR = src
 MAIN_EXE = main
 EXE_BUILD = build
+DOC_DIR = doc
 
 # Bibliotheques necessaires
 LIBS_SDL = -lSDL3 -lSDL3_mixer
@@ -32,10 +33,16 @@ run_NC: $(EXE_FINAL_NC)
 	./$(EXE_FINAL_NC)
 
 valgrind_NC: $(EXE_FINAL_NC)
-	timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=./doc/rapport_valgrind_NC.txt ./$(EXE_FINAL_NC) || true
+	@mkdir -p $(DOC_DIR)
+	@echo "🔍 [NCURSES] Analyse Valgrind en cours (10s)..."
+	-timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=$(DOC_DIR)/rapport_valgrind_NC.txt ./$(EXE_FINAL_NC) || true
+	@echo "✅ Rapport généré : $(DOC_DIR)/rapport_valgrind_NC.txt"
 
 valgrind_SDL: $(EXE_FINAL_SDL)
-	timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=./doc/rapport_valgrind_SDL.txt ./$(EXE_FINAL_SDL) || true
+	@mkdir -p $(DOC_DIR)
+	@echo "🔍 [SDL] Analyse Valgrind en cours (10s)..."
+	-timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=$(DOC_DIR)/rapport_valgrind_SDL.txt ./$(EXE_FINAL_SDL) || true
+	@echo "✅ Rapport généré : $(DOC_DIR)/rapport_valgrind_SDL.txt"
 
 valgrind: valgrind_NC valgrind_SDL
 
@@ -43,16 +50,6 @@ clean:
 	rm -rf $(EXE_BUILD)/*
 	rm -rf $(EXE_BUILD)
 	@echo "Build supprime"
-
-# --- TEST UNITAIRE ---
-EXE_TEST = $(BUILD_DIR)/run_tests
-
-# Compile test_model.c avec model.c (et les libs pour éviter les erreurs de lien)
-test: $(SRC_DIR)/model.c test/test_model.c
-	@echo "🧪 Compilation des tests..."
-	$(CC) $(CFLAGS) -DNCURSES tests/test_model.c $(SRC_DIR)/model.c -o $(EXE_TEST) $(LIBS_SDL)
-	@echo "🧪 Exécution des tests..."
-	@./$(EXE_TEST)
 
 # Installation SDL3 et NC
 SDL_PATH = SDL

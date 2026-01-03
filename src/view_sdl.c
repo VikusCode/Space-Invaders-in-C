@@ -221,13 +221,11 @@ void draw_win_view(GameState *game) {
     // Affichage du Score final
     draw_text("SCORE FINAL", cx - 11.0f, cy, 0.4f);
     draw_number(game->score, cx + 12.0f, cy, 0.4f);
-
-    // --- INSTRUCTIONS DE NAVIGATION ---
     
-    // 1. Rejouer (Touche Entrée)
+    // Rejouer (Touche Entrée)
     draw_text("ENTREE POUR CONTINUER", cx - 15.0f, cy + 8.0f, 0.3f);
     
-    // 2. Retour Accueil (Touche Echap) - AJOUT ICI
+    // Accueil (Touche Echap)
     draw_text("ECHAP POUR ACCUEIL", cx - 14.5f, cy + 12.0f, 0.3f);
 }
 
@@ -267,40 +265,29 @@ void draw_pause_menu(GameState *game) {
     float quit_y = start_y + btn_h + gap;
     float text_size = 0.4f;
 
-    // --- TITRE "PAUSE" ---
     draw_text("PAUSE", (game->width - (5 * 4 * 0.5)) / 2, 5.0f, 0.5f);
 
-    // --- BOUTON 1 : RECOMMENCER (Cyan) ---
+    // bouton RECOMMENCER (Cyan)
     SDL_SetRenderDrawColor(rend, 0, 200, 200, 255);
     SDL_FRect restart_rect = {btn_x, restart_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &restart_rect);
     
-    // Texte "RECOMMENCER" (11 lettres)
-    // Centrage approx : 11 * 4 * 0.4 = 17.6 largeur
-    // Marge X = (28 - 17.6) / 2 = 5.2
     draw_text("RECOMMENCER", btn_x + 5.2f, restart_y + 1.5f, text_size);
 
-    // --- BOUTON 2 : QUITTER (Rouge) ---
+    // quitter (Rouge)
     SDL_SetRenderDrawColor(rend, 200, 0, 0, 255);
     SDL_FRect quit_rect = {btn_x, quit_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &quit_rect);
 
-    // Texte "QUITTER"
     draw_text("QUITTER", btn_x + 8.0f, quit_y + 1.5f, text_size);
 }
 
 void draw_alpha(char c, float x, float y, float size) {
-    // On convertit tout en majuscule pour simplifier
     if (c >= 'a' && c <= 'z') c -= 32; 
     
-    // Si ce n'est pas une lettre A-Z, on ne dessine rien (ou un espace)
     if (c < 'A' || c > 'Z') return;
 
-    int index = c - 'A'; // 0 pour A, 1 pour B, etc.
-
-    // Définition des pixels pour chaque lettre (0=vide, 1=plein)
-    // C'est un peu long, mais c'est fait une fois pour toutes !
-    
+    int index = c - 'A'; 
 
     SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
 
