@@ -135,7 +135,7 @@ void draw_instructions(GameState *game) {
 
     // --- TITRE ---
     SDL_SetRenderDrawColor(rend, 255, 255, 0, 255); // Jaune
-    draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2, y_title, title_size);
+    draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2 + 4, y_title, title_size);
 
 
     // --- COLONNE GAUCHE : LES COMMANDES ---
