@@ -11,8 +11,8 @@ int main(int argc, char const *argv[])
 {
     GameState game;
 
-    game.isSDL = 0;
-    game.isNC = 1;
+    game.isSDL = false;
+    game.isNC = true;
     init_ncurses();
     
     init_model(&game, COLS, LINES, score_init);

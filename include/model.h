@@ -17,6 +17,8 @@
 #define SHIELD_H 4
 #define MAX_SHIELD_BRICKS (MAX_SHIELDS * SHIELD_W * SHIELD_H)
 #define score_init 0
+static float vitesse = 25.0;
+static float ind_vit = 1.0;
 
 // --- Structures ---
 typedef struct {

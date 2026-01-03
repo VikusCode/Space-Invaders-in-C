@@ -6,7 +6,7 @@
 #define BTN_Y 18
 #define BTN_H 4
 #define BTN_W 20
-
+#define BOUCLE_FOND 10000000
 
 int init_sdl_view(GameState *game);
 void draw_sdl_view(GameState *game);

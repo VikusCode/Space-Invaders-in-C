@@ -1,0 +1,787 @@
+==16078== Memcheck, a memory error detector
+==16078== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==16078== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==16078== Command: ./build/gameNC
+==16078== Parent PID: 16077
+==16078== 
+==16078== 
+==16078== Process terminating with default action of signal 15 (SIGTERM)
+==16078==    at 0x4E28D3E: tcsetattr (tcsetattr.c:83)
+==16078==    by 0x4CF3862: _nc_set_tty_mode_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF194B: cbreak_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBD03A: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== HEAP SUMMARY:
+==16078==     in use at exit: 70,750 bytes in 158 blocks
+==16078==   total heap usage: 169 allocs, 11 frees, 79,779 bytes allocated
+==16078== 
+==16078== 4 bytes in 1 blocks are still reachable in loss record 1 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBC2A1: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 2 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB8B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 3 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBC3: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 4 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBFB: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 5 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDAA: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 6 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDF8: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are still reachable in loss record 7 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE46: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 9 bytes in 1 blocks are possibly lost in loss record 8 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 11 bytes in 1 blocks are still reachable in loss record 9 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC30: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 11 bytes in 1 blocks are still reachable in loss record 10 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC68: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 13 bytes in 1 blocks are still reachable in loss record 11 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CE52D0: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CE7F9D: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6A8A: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 15 bytes in 1 blocks are still reachable in loss record 12 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CBD543: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 15 bytes in 1 blocks are still reachable in loss record 13 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CF2328: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 17 bytes in 1 blocks are still reachable in loss record 14 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB1B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 17 bytes in 1 blocks are still reachable in loss record 15 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBA813: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD016: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 20 bytes in 1 blocks are still reachable in loss record 16 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4DC035E: strdup (strdup.c:42)
+==16078==    by 0x4CEA6A5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE99: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 17 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34510: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB1B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 18 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB8B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 19 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBC3: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 20 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBFB: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 21 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC30: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 22 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC68: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 23 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDAA: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 24 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDF8: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 25 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE46: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 26 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE99: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are still reachable in loss record 27 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBA813: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD016: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 24 bytes in 1 blocks are possibly lost in loss record 28 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4E34571: tsearch (tsearch.c:337)
+==16078==    by 0x4CEA6C7: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 25 bytes in 1 blocks are still reachable in loss record 29 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE7997: _nc_home_terminfo (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CE7F88: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6A8A: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 39 bytes in 1 blocks are still reachable in loss record 30 of 71
+==16078==    at 0x484DB80: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE69DC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEA237: _nc_tparm_analyze (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEA5B2: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE99: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 47 bytes in 1 blocks are still reachable in loss record 31 of 71
+==16078==    at 0x484DB80: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE69DC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF54A8: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 47 bytes in 1 blocks are still reachable in loss record 32 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE6000: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 48 bytes in 1 blocks are still reachable in loss record 33 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE7B9B: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6A8A: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 70 bytes in 1 blocks are still reachable in loss record 34 of 71
+==16078==    at 0x484DB80: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE69DC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEFB43: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB1B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 78 bytes in 1 blocks are still reachable in loss record 35 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE6129: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 94 bytes in 1 blocks are still reachable in loss record 36 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE7AFF: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6A8A: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 104 bytes in 1 blocks are still reachable in loss record 37 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5917: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC634: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 104 bytes in 1 blocks are still reachable in loss record 38 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5917: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC65D: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 104 bytes in 1 blocks are still reachable in loss record 39 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5917: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC80E: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 128 bytes in 1 blocks are still reachable in loss record 40 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBC26E: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 156 bytes in 1 blocks are still reachable in loss record 41 of 71
+==16078==    at 0x484DB80: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE69DC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF54C6: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 42 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB1B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 43 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB8B: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 44 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBC3: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 45 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCBFB: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 46 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC30: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 47 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCC68: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 48 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDAA: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 49 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCDF8: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 50 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE46: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 51 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCE99: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are still reachable in loss record 52 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBA813: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD016: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 168 bytes in 1 blocks are possibly lost in loss record 53 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CEA61E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CEF278: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBCB53: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 480 bytes in 1 blocks are still reachable in loss record 54 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5935: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC634: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 480 bytes in 1 blocks are still reachable in loss record 55 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5935: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC65D: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 480 bytes in 1 blocks are still reachable in loss record 56 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CB5935: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBAAD7: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC80E: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 512 bytes in 1 blocks are still reachable in loss record 57 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBC24C: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 712 bytes in 1 blocks are still reachable in loss record 58 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CF5783: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 712 bytes in 1 blocks are still reachable in loss record 59 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE627D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 760 bytes in 1 blocks are still reachable in loss record 60 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CF226F: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 1,107 bytes in 1 blocks are still reachable in loss record 61 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CF566A: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 1,108 bytes in 1 blocks are still reachable in loss record 62 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE6418: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 1,632 bytes in 1 blocks are still reachable in loss record 63 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE9036: new_prescr (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBD4C3: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 1,664 bytes in 1 blocks are still reachable in loss record 64 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CF4CFD: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 2,337 bytes in 1 blocks are still reachable in loss record 65 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE6210: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 4,000 bytes in 1 blocks are still reachable in loss record 66 of 71
+==16078==    at 0x484DB80: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE69DC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF54E4: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF65C1: _nc_read_file_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF694C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF6AB0: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF2135: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22C5: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 4,000 bytes in 1 blocks are still reachable in loss record 67 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CE6021: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CF22F7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4)
+==16078==    by 0x4CBC1F7: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 4,032 bytes in 1 blocks are still reachable in loss record 68 of 71
+==16078==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBC34F: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 14,400 bytes in 30 blocks are still reachable in loss record 69 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBAB14: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC634: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 14,400 bytes in 30 blocks are still reachable in loss record 70 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBAB14: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC65D: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== 14,400 bytes in 30 blocks are still reachable in loss record 71 of 71
+==16078==    at 0x484D953: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16078==    by 0x4CBAB14: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBC80E: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD4D4: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x4CBD567: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.4)
+==16078==    by 0x10CF9A: init_ncurses (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078==    by 0x10FCFC: main (in /home/theohc/Theo/Fac_Lens/Projet_L3/S5/Space-Invaders-in-C/build/gameNC)
+==16078== 
+==16078== LEAK SUMMARY:
+==16078==    definitely lost: 0 bytes in 0 blocks
+==16078==    indirectly lost: 0 bytes in 0 blocks
+==16078==      possibly lost: 201 bytes in 3 blocks
+==16078==    still reachable: 70,549 bytes in 155 blocks
+==16078==         suppressed: 0 bytes in 0 blocks
+==16078== 
+==16078== For lists of detected and suppressed errors, rerun with: -s
+==16078== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)

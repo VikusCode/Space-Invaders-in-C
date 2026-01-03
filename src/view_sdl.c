@@ -17,8 +17,8 @@ void convert_mouse_coordinates(float *x, float *y) {
 
 int init_sdl_view(GameState *game) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
-    printf("Erreur SDL_Init : %s\n", SDL_GetError());
-    return 0; 
+        printf("Erreur SDL_Init : %s\n", SDL_GetError());
+        return 0; 
     }
 
     game->currView = ACCUEIL;
@@ -34,7 +34,7 @@ int init_sdl_view(GameState *game) {
 
     int width = mode->w, height = mode->h;
 
-    // Création fenêtre
+    // Création fenêtre (On garde le flag ici, c'est bien)
     window = SDL_CreateWindow("Jeu Space Invader !", width, height, SDL_WINDOW_FULLSCREEN);
 
     if (!window) {
@@ -43,13 +43,15 @@ int init_sdl_view(GameState *game) {
         return 0;    
     }
 
-    rend = SDL_CreateRenderer(window, NULL); // NULL = Driver par défaut
+    rend = SDL_CreateRenderer(window, NULL); 
 
     if(!rend) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Erreur rend : %s\n", SDL_GetError());
         SDL_Quit();
         return 0;    
     }
+
+    SDL_SetWindowFullscreen(window, true); 
 
     SDL_SetRenderLogicalPresentation(rend, game->width, game->height, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
@@ -297,7 +299,6 @@ void draw_digit(int digit, float x, float y, float size) {
     // Représentation binaire des chiffres 0-9 (Matrice 5 lignes x 3 colonnes)
     // 1 = Dessiner, 0 = Vide
     
-
     if (digit < 0 || digit > 9) return;
 
     SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); // Blanc
@@ -444,24 +445,28 @@ int init_audio(GameState *game) {
         return 0;
     }
 
-    // --- CHARGEMENT MUSIQUE ---
+    // Chargement des audios
     game->audio_music = MIX_LoadAudio(game->mixerDevice, "assets/music.mp3", true);
+    game->audio_shoot = MIX_LoadAudio(game->mixerDevice, "assets/shoot.wav", true);
+    game->audio_explosion = MIX_LoadAudio(game->mixerDevice, "assets/explosion.wav", true);
+
+    
+    // Chargement des tracks
+    // Musique de fond
     if (game->audio_music) {
         game->track_music = MIX_CreateTrack(game->mixerDevice);
         MIX_SetTrackAudio(game->track_music, game->audio_music);
-        // Lancer la musique en boucle (-1)
+        // J'ai mis -1 pour que ca tourne en boucle
         MIX_PlayTrack(game->track_music, -1);
     }
-
-    // --- CHARGEMENT SON TIR ---
-    game->audio_shoot = MIX_LoadAudio(game->mixerDevice, "assets/shoot.wav", true);
+    
+    // Shoot player
     if (game->audio_shoot) {
         game->track_shoot = MIX_CreateTrack(game->mixerDevice);
         MIX_SetTrackAudio(game->track_shoot, game->audio_shoot);
     }
 
-    // --- CHARGEMENT SON EXPLOSION ---
-    game->audio_explosion = MIX_LoadAudio(game->mixerDevice, "assets/explosion.wav", true);
+    // Shoot ennemi
     if (game->audio_explosion) {
         game->track_explosion = MIX_CreateTrack(game->mixerDevice);
         MIX_SetTrackAudio(game->track_explosion, game->audio_explosion);
@@ -472,15 +477,17 @@ int init_audio(GameState *game) {
 
 // nouvelle fonction
 void cleanup_audio(GameState *game) {
-    if (game->track_music) MIX_DestroyTrack(game->track_music);
-    if (game->audio_music) MIX_DestroyAudio(game->audio_music);
-
+    // Derstruction des tracks
     if (game->track_shoot) MIX_DestroyTrack(game->track_shoot);
-    if (game->audio_shoot) MIX_DestroyAudio(game->audio_shoot);
-
+    if (game->track_music) MIX_DestroyTrack(game->track_music);
     if (game->track_explosion) MIX_DestroyTrack(game->track_explosion);
+
+    // Destruction des audios
+    if (game->audio_music) MIX_DestroyAudio(game->audio_music);
+    if (game->audio_shoot) MIX_DestroyAudio(game->audio_shoot);
     if (game->audio_explosion) MIX_DestroyAudio(game->audio_explosion);
 
+    // Destruction du mixerDevice
     if (game->mixerDevice) MIX_DestroyMixer(game->mixerDevice);
 }
 
@@ -496,8 +503,8 @@ void draw_sdl_view(GameState *game) {
         draw_pause_menu(game); 
         MIX_PauseTrack(game->track_music); 
     } else if (game->currView == MENU_GAGNE) {
-        draw_win_view(game);       
         MIX_PauseTrack(game->track_music); 
+        draw_win_view(game);       
     } else if (game->currView == MENU_PERD) {
         MIX_PauseTrack(game->track_music); 
         draw_lose_view(game);      

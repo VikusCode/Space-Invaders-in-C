@@ -32,7 +32,7 @@ void handle_event(GameState *game, int *running) {
                     mouse_y >= play_y && mouse_y <= (play_y + btn_h)) {
                     init_model(game, game->width, game->height, score_init);
                     game->currView = JEU;
-                    game->isSDL = 1;
+                    game->isSDL = true;
                     if (game->track_music) {
                         MIX_PlayTrack(game->track_music, -1);
                     }
@@ -51,7 +51,7 @@ void handle_event(GameState *game, int *running) {
                     
                     *running = 0; 
                 }
-            } else if (game->currView == MENU_JEU || game->currView == MENU_PERD) {
+            } else if (game->currView == MENU_JEU) {
                 float btn_w = 28.0f;
                 float btn_h = 6.0f;
                 float gap = 2.0f;
@@ -69,7 +69,7 @@ void handle_event(GameState *game, int *running) {
                     init_model(game, game->width, game->height, score_init);
                     
                     game->currView = JEU; 
-                    game->isSDL = 1;      
+                    game->isSDL = true;      
                     MIX_PlayTrack(game->track_music, -1);
                 }
                 
@@ -87,9 +87,6 @@ void handle_event(GameState *game, int *running) {
                 case ACCUEIL:
                     switch (event.key.key) {
                         case SDLK_RETURN:
-                            game->currView = JEU;
-                            draw_game_view(game);
-                            break;
                         case SDLK_RETURN2:
                             game->currView = JEU;
                             draw_game_view(game);
@@ -104,8 +101,6 @@ void handle_event(GameState *game, int *running) {
                 case INSTRUCTION:
                     switch (event.key.key) {
                         case SDLK_RETURN:
-                            game->currView = ACCUEIL;
-                            break;
                         case SDLK_RETURN2:
                             game->currView = ACCUEIL;
                             break;
@@ -118,10 +113,6 @@ void handle_event(GameState *game, int *running) {
                     break;
                 case JEU:
                     switch (event.key.key) {
-                        case SDLK_A: // a enlever apres
-                            game->nb_lives = 0;
-                            game->currView = MENU_PERD;
-                            break;
                         case SDLK_ESCAPE: 
                             game->currView = MENU_JEU;
                             break;
@@ -140,14 +131,11 @@ void handle_event(GameState *game, int *running) {
                 case MENU_GAGNE:
                     switch (event.key.key) {
                         case SDLK_RETURN:
-                            init_model(game, game->width, game->height, game->score);
-                            game->currView = JEU;
-                            game->isSDL = 1; 
-                            break;
                         case SDLK_RETURN2:
                             init_model(game, game->width, game->height, game->score);
                             game->currView = JEU;
-                            game->isSDL = 1; 
+                            game->isSDL = true; 
+                            MIX_PlayTrack(game->track_music, -1);
                             break;
                         case SDLK_ESCAPE:
                             game->currView = ACCUEIL;
@@ -162,18 +150,12 @@ void handle_event(GameState *game, int *running) {
                             game->currView = ACCUEIL;
                             break;
                         case SDLK_RETURN:
-                            init_model(game, game->width, game->height, score_init);
-                            game->currView = JEU;
-                            game->isSDL = 1; 
-
-                            if (game->track_music) {
-                                MIX_ResumeTrack(game->track_music);
-                            }
-                            break;
                         case SDLK_RETURN2:
                             init_model(game, game->width, game->height, score_init);
                             game->currView = JEU;
-                            game->isSDL = 1; 
+                            game->isSDL = true; 
+
+                            MIX_PlayTrack(game->track_music, -1);
                             break;
                         default:
                             break;
@@ -200,18 +182,17 @@ int handle_input_ncurses(GameState *game) {
     int ch = getch();
     
     if (ch == ERR) {
-        return 1; // Pas d'entrée, on continue la boucle
+        return 1; 
     }
     
-    // Commandes globales
     if (ch == 'q' || ch == 'Q') {
-        return 0; // Quitter le jeu
+        return 0; 
     }
     
     switch (game->currView) {
         case ACCUEIL:
             if (ch == '\n' || ch == KEY_ENTER) {
-                init_model(game, game->width, game->height, 0); // Reset pour être sûr
+                init_model(game, game->width, game->height, score_init); 
                 game->currView = JEU;
             }
             break;
@@ -237,7 +218,7 @@ int handle_input_ncurses(GameState *game) {
         case MENU_PERD:
         case MENU_GAGNE:
             if (ch == 'r' || ch == 'R') {
-                init_model(game, game->width, game->height, 0);
+                init_model(game, game->width, game->height, score_init);
                 game->currView = JEU;
             }
             break;
@@ -245,5 +226,5 @@ int handle_input_ncurses(GameState *game) {
             break;
     }
     
-    return 1; // On continue la boucle
+    return 1; 
 }

@@ -160,10 +160,15 @@ void update_enemies(GameState *game) {
     if (cpt_alive == 0) {
             game->currView = MENU_GAGNE;
     }
-    
+    if ((float)game->score / (ind_vit * 100.0) == 0) {
+        vitesse -= 0.2;
+        ind_vit += 1.0;
+    }
+    printf("%0.4f\n", vitesse);
+
     // 1. GESTION VITESSE
     game->enemy_move_counter++;
-    if (game->enemy_move_counter < 25) return; // plus le chiffre est bas plus ca augmente la vitesse
+    if (game->enemy_move_counter < vitesse) return; // plus le chiffre est bas plus ca augmente la vitesse
     
     game->enemy_move_counter = 0;
     
@@ -207,11 +212,6 @@ void update_enemies(GameState *game) {
             if (game->enemies[i].y >= game->player.y) {
                 game->game_over = 1;
                 game->currView = MENU_PERD;
-
-                // Stop music
-                if (game->isSDL && game->track_music) {
-                    MIX_PauseTrack(game->track_music); 
-                }
             }
         }
     }
@@ -226,10 +226,6 @@ void update_enemies(GameState *game) {
                 if (game->enemies[i].y >= game->player.y) {
                     game->game_over = 1;
                     game->currView = MENU_PERD; 
-
-                    if (game->isSDL && game->track_music) {
-                        MIX_PauseTrack(game->track_music); 
-                    }
                 }
             }
         }
@@ -314,12 +310,6 @@ void check_collisions(GameState *game) {
                     if (game->nb_lives > 0) game->nb_lives--; // baisser la vie de notre vaisseau
                     if (game->nb_lives <= 0) {
                         game->game_over = 1;
-                        if (game->isSDL && game->track_music) {
-                            MIX_PauseTrack(game->track_music); 
-                        }
-                        if (game->isSDL && game->track_explosion) { //nouveau if
-                            MIX_PlayTrack(game->track_explosion, 0);
-                        }
                         game->currView = MENU_PERD;
                     }
             }

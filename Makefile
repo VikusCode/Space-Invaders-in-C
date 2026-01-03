@@ -14,30 +14,35 @@ LIBS_NC = -lncurses
 EXE_FINAL_NC = $(EXE_BUILD)/gameNC
 EXE_FINAL_SDL = $(EXE_BUILD)/gameSDL
 
-all: create_build run_principal 
+all: clean create_build run_principal 
 
 create_build:
 	@mkdir -p $(EXE_BUILD)
+	@echo "Build crée"
 
 run_principal: $(MAIN_EXE)/mainNC.c $(MAIN_EXE)/mainSDL.c $(SRC_DIR)/controller.c $(SRC_DIR)/model.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/view_ncurses.c
 	$(CC) $(SRC_DIR)/model.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/controller.c $(MAIN_EXE)/mainSDL.c -o $(EXE_FINAL_SDL) $(LIBS_SDL) $(LIBS_NC)
 	$(CC) $(SRC_DIR)/model.c $(SRC_DIR)/view_ncurses.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/controller.c $(MAIN_EXE)/mainNC.c -o $(EXE_FINAL_NC) $(LIBS_SDL) $(LIBS_NC) 
 	@echo "Compilation faite ! Tape 'make run_SDL' ou 'make run_NC' pour lancer tout le programme"
 
-run_SDL: all
+run_SDL: $(EXE_FINAL_SDL)
 	SDL_AUDIO_DRIVER=pulseaudio ./$(EXE_FINAL_SDL)
 
-run_NC: all
+run_NC: $(EXE_FINAL_NC)
 	./$(EXE_FINAL_NC)
 
-valgrind: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=rapport_valgrind.txt $(run)
+valgrind_NC: $(EXE_FINAL_NC)
+	timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=./doc/rapport_valgrind_NC.txt ./$(EXE_FINAL_NC) || true
+
+valgrind_SDL: $(EXE_FINAL_SDL)
+	timeout 10s valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=./doc/rapport_valgrind_SDL.txt ./$(EXE_FINAL_SDL) || true
+
+valgrind: valgrind_NC valgrind_SDL
 
 clean:
 	rm -rf $(EXE_BUILD)/*
+	rm -rf $(EXE_BUILD)
 	@echo "Build supprime"
-
-.PHONY: all create_build run_principal run clean
 
 # Installation SDL3 et NC
 SDL_PATH = SDL
@@ -61,12 +66,12 @@ install_ubuntu:
 	sudo apt-get install -y libflac-dev libvorbis-dev libopus-dev libmpg123-dev libogg-dev
 
 install_libs_source:
-	@echo "Compilation SDL3 depuis la source..."
+	@echo "Compilation SDL3 depuis la source"
 	cd $(SDL_PATH) && rm -rf build && mkdir build && cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release .. && \
 	make -j$$(nproc) && \
 	sudo make install
-	@echo "Compilation SDL_mixer depuis la source..."
+	@echo "Compilation SDL_mixer depuis la source"
 	cd $(MIXER_PATH) && rm -rf build && mkdir build && cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release .. && \
 	make -j$$(nproc) && \
