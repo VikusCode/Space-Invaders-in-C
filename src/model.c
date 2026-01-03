@@ -166,7 +166,7 @@ void update_enemies(GameState *game) {
             ind_vit += 1.0;
         }
     }
-    printf("%0.4f\n", vitesse);
+    //printf("%0.4f\n", vitesse);
 
     // 1. GESTION VITESSE
     game->enemy_move_counter++;
