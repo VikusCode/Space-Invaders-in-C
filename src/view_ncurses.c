@@ -295,7 +295,6 @@ void cleanup_ncurses(void) {
 }
 
 void render_ncurses(GameState *game) {
-    clear();
     
     switch (game->currView) {
         case ACCUEIL:
