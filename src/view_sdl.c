@@ -90,7 +90,7 @@ void draw_menu_view(GameState *game) {
     SDL_SetRenderDrawColor(rend, 0, 100, 255, 255);
     SDL_FRect instr_rect = {btn_x, instr_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &instr_rect);
-    draw_text("INSTRUCTIONS", btn_x + 2.0f, instr_y + 1.5f, text_size);
+    draw_text("INSTRUCTIONS", btn_x + 4.0f, instr_y + 1.5f, text_size);
 
     // 3. BOUTON QUITTER (Rouge)
     SDL_SetRenderDrawColor(rend, 200, 0, 0, 255);
