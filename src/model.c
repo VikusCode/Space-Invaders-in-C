@@ -161,8 +161,10 @@ void update_enemies(GameState *game) {
             game->currView = MENU_GAGNE;
     }
     if ((float)game->score / (ind_vit * 100.0) == 0) {
-        vitesse -= 0.2;
-        ind_vit += 1.0;
+        if(game->score != 0){
+            vitesse -= 0.2;
+            ind_vit += 1.0;
+        }
     }
     printf("%0.4f\n", vitesse);
 
