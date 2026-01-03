@@ -7,47 +7,38 @@ Ce projet se distingue par son architecture **MVC (Modèle-Vue-Contrôleur)** qu
 
 ---
 
-## 📋 Fonctionnalités
+## Fonctionnalités
 
 * **Architecture MVC :** Séparation stricte entre la logique (Model), l'affichage (View) et les entrées (Controller).
 * **Dual Mode :**
     * Interface graphique fluide avec gestion des sprites et plein écran.
     * Interface rétro en mode texte (ASCII art) pour le terminal.
 * **Système Audio (SDL) :** Musique de fond, bruitages de tir et d'explosion (via SDL_Mixer).
-* **Gameplay complet :**
-    * Déplacement du vaisseau.
-    * Tirs joueurs et ennemis.
-    * Ennemis avec comportements (descente, accélération).
-    * Bunkers destructibles.
-    * Gestion des vies et du score.
+* **Gameplay complet :** Ennemis coordonnés, bunkers destructibles, score et vies.
 * **Menus :** Accueil, Instructions, Pause, Game Over, Victoire.
 * **Tests Unitaires :** Système automatisé pour valider la logique du jeu.
 
 ---
 
-## 🛠️ Prérequis
+## Dépendances et Versions
 
-Le projet fonctionne sous Linux (testé sur Ubuntu/Debian et Fedora).
+Le projet est conçu pour **Linux** (Ubuntu/Debian et WSL).
 
-### Dépendances nécessaires :
-* `gcc` & `make`
-* `SDL3` & `SDL3_mixer`
-* `ncurses`
-* `cmake` (pour la compilation des libs SDL si nécessaire)
-
----
-
-README détaillé : compilation, dépendances (versions recommandées), exécution, commandes clavier, description de l’architecture MVC.
-## 📥 Installation
-
-Le projet dispose d'un **Makefile** puissant qui gère l'installation des dépendances pour vous.
-
-### 1. Cloner le projet
-```bash
-git clone [https://votre-repo-git.git](https://votre-repo-git.git)
-cd SpaceInvaders
-```
+### Bibliothèques requises :
+* **GCC / Make :** Outils de compilation standard.
+* **SDL3 & SDL3_mixer :** (Version 3.0+ requise). Gère le fenêtrage, le rendu GPU et l'audio.
+* **Ncurses :** (Version 6.0+). Gère l'affichage dans le terminal.
+* **CMake & Git :** Utilisés par le Makefile pour télécharger SDL3 si nécessaire.
 
 ---
+
+## Installation et Compilation
+
+Un **Makefile** automatisé est fourni pour simplifier le processus.
+---
+
+## Installation
+
+Le projet dispose d'un **Makefile** automatisé qui gère l'installation des dépendances.
 
 ## Fait par Yaël Muselet Dumont et Théo Hecquet
