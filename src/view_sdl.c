@@ -63,30 +63,30 @@ void draw_menu_view(GameState *game) {
     SDL_RenderClear(rend);
 
     // --- DIMENSIONS ---
-    float btn_w = 26.0f; // Un peu plus large pour le mot "INSTRUCTIONS"
+    float btn_w = 26.0f; 
     float btn_h = 6.0f;
-    float gap = 2.0f;    // Espace entre les boutons
+    float gap = 2.0f;    
     
-    // Calcul pour 3 BOUTONS maintenant
+    // Calcul pour 3 BOUTONS
     float total_h = (btn_h * 3) + (gap * 2);
     
     float start_y = (game->height - total_h) / 2;
     float btn_x = (game->width - btn_w) / 2;
 
-    // Positions Y des 3 boutons
+    // Positions Y
     float play_y = start_y;
-    float instr_y = start_y + btn_h + gap;         // Nouveau bouton milieu
-    float quit_y = start_y + (btn_h + gap) * 2;    // Quitter descend en bas
+    float instr_y = start_y + btn_h + gap;        
+    float quit_y = start_y + (btn_h + gap) * 2;    
 
-    float text_size = 0.35f; // Texte un peu plus petit pour tout faire rentrer
+    float text_size = 0.35f; 
 
     // 1. BOUTON JOUER (Vert)
     SDL_SetRenderDrawColor(rend, 0, 200, 0, 255);
     SDL_FRect play_rect = {btn_x, play_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &play_rect);
-    draw_text("JOUER", btn_x + 9.5f, play_y + 1.5f, text_size); // Centré à vue d'oeil
+    draw_text("JOUER", btn_x + 9.5f, play_y + 1.5f, text_size); 
 
-    // 2. BOUTON INSTRUCTIONS (Bleu) - NOUVEAU
+    // 2. BOUTON INSTRUCTIONS (Bleu)
     SDL_SetRenderDrawColor(rend, 0, 100, 255, 255);
     SDL_FRect instr_rect = {btn_x, instr_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &instr_rect);
@@ -99,7 +99,21 @@ void draw_menu_view(GameState *game) {
     draw_text("QUITTER", btn_x + 8.0f, quit_y + 1.5f, text_size);
 
     // Titre
+    SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); // Blanc pour le titre
     draw_text("SPACE INVADERS", (game->width - (14 * 4 * 0.5)) / 2, 5.0f, 0.5f);
+
+    // --- NOUVEAU : MESSAGE EN BAS DE PAGE ---
+    SDL_SetRenderDrawColor(rend, 150, 150, 150, 255); // Gris clair
+    float footer_size = 0.20f; 
+    
+    // Le nouveau texte fait 49 caractères (espaces inclus)
+    // "Utilise ta souris ou clique sur entree pour jouer"
+    float msg_width = 49 * 4 * footer_size; // <--- J'ai remplacé 29 par 49 ici
+    
+    float msg_x = (game->width - msg_width) / 2;
+    float msg_y = game->height - 4.0f; 
+    
+    draw_text("UTILISE TA SOURIS OU CLIQUE SUR ENTREE POUR JOUER", msg_x, msg_y, footer_size);
 }
 
 void draw_instructions(GameState *game) {
@@ -360,7 +374,6 @@ void draw_game_view(GameState *game) {
     cursor_x = draw_text("SCORE ", cursor_x, hud_y, text_size);
     draw_number(game->score, cursor_x, hud_y, text_size);
     
-    // B. VIES (Collé à droite)
     float lives_x = game->width - 15.0f; // Marge suffisante à droite
     lives_x = draw_text("LIVES ", lives_x, hud_y, text_size);
     

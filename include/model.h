@@ -6,7 +6,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
-// --- Constantes ---
+// Constantes
 #define MAX_BULLETS 10
 #define MAX_ENEMY_BULLETS 20
 #define ENEMY_ROWS 4
@@ -17,37 +17,46 @@
 #define SHIELD_H 4
 #define MAX_SHIELD_BRICKS (MAX_SHIELDS * SHIELD_W * SHIELD_H)
 #define score_init 0
+
+// Calcul de vitesse ennemie en fonction de la vague
 static float vitesse = 25.0;
 static int nbVagues = 1;
 static int prec_vague;
 
 // --- Structures ---
+
+// Structure pour les balles
 typedef struct {
     int x, y;
     int active;
 } Bullet;
 
+// Types d'ennemis
 typedef enum {
     SQUID,
     CRABS,
     OCTOPUS
 } EnnemyType;
 
+// Structure pour les briques de bouclier
 typedef struct {
     int x, y;
     int active; // 1 = brique présente, 0 = détruite
 } ShieldBrick;
 
+// Structure pour les ennemis avec type
 typedef struct {
     int x, y;
     int alive;
     EnnemyType type;
 } Enemy;
 
+// Structure pour le joueur
 typedef struct {
     int x, y;
 } Player;
 
+// États des vues
 typedef enum {
     ACCUEIL, 
     INSTRUCTION,
@@ -57,6 +66,7 @@ typedef enum {
     MENU_PERD
 } VueState;
 
+// Structure principale du jeu GameState
 typedef struct {
     Player player;
     Bullet bullets[MAX_BULLETS];
@@ -96,6 +106,7 @@ typedef struct {
     int height;
 } GameState;
 
+// --- Fonctions du modèle ---
 void init_model(GameState *game, int width, int height, int score);
 void update_bullets(GameState *game);
 void update_enemies(GameState *game);
@@ -103,6 +114,5 @@ void enemy_shoot(GameState *game);
 void check_collisions(GameState *game);
 void player_shoot(GameState *game);
 void player_move(GameState *game, int direction);
-
 
 #endif
