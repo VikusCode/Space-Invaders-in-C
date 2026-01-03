@@ -45,3 +45,8 @@ Le projet dispose d'un **Makefile** puissant qui gère l'installation des dépen
 ```bash
 git clone [https://votre-repo-git.git](https://votre-repo-git.git)
 cd SpaceInvaders
+```
+
+---
+
+## Fait par Yaël Muselet Dumont et Théo Hecquet
