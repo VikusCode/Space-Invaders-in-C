@@ -163,7 +163,7 @@ void update_enemies(GameState *game) {
     
     // 1. GESTION VITESSE
     game->enemy_move_counter++;
-    if (game->enemy_move_counter < 25) return; 
+    if (game->enemy_move_counter < 25) return; // plus le chiffre est bas plus ca augmente la vitesse
     
     game->enemy_move_counter = 0;
     
@@ -206,6 +206,12 @@ void update_enemies(GameState *game) {
             // B. COLLISION JOUEUR
             if (game->enemies[i].y >= game->player.y) {
                 game->game_over = 1;
+                game->currView = MENU_PERD;
+
+                // Stop music
+                if (game->isSDL && game->track_music) {
+                    MIX_PauseTrack(game->track_music); 
+                }
             }
         }
     }
@@ -217,8 +223,14 @@ void update_enemies(GameState *game) {
         for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
             if (game->enemies[i].alive) {
                 game->enemies[i].y++;
-                // Sécurité Game Over si on descend trop bas
-                if (game->enemies[i].y >= game->player.y) game->game_over = 1;
+                if (game->enemies[i].y >= game->player.y) {
+                    game->game_over = 1;
+                    game->currView = MENU_PERD; 
+
+                    if (game->isSDL && game->track_music) {
+                        MIX_PauseTrack(game->track_music); 
+                    }
+                }
             }
         }
     } else {

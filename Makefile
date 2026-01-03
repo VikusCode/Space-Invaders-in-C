@@ -1,40 +1,3 @@
-# Installation SDL3 et NC
-SDL_PATH = SDL
-MIXER_PATH = SDL_mixer
-
-install_NC:
-	sudo apt-get update
-	sudo apt-get install -y libncurses5-dev libncursesw5-dev
-	@echo "Installation de ncurses terminée !"
-
-install_ubuntu:
-	@echo "🛠️  Installation dépendances Ubuntu..."
-	sudo apt-get update
-	sudo apt-get install -y build-essential cmake git libncurses5-dev libncursesw5-dev
-	# Dépendances audio/vidéo complètes
-	sudo apt-get install -y libasound2-dev libpulse-dev \
-	                        libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
-	                        libxi-dev libxinerama-dev libxss-dev libxtst-dev \
-	                        libxxf86vm-dev libxfixes-dev libxrender-dev \
-	                        libwayland-dev libxkbcommon-dev
-	sudo apt-get install -y libflac-dev libvorbis-dev libopus-dev libmpg123-dev libogg-dev
-
-install_libs_source:
-	@echo "🚀 Compilation SDL3 depuis la source..."
-	cd $(SDL_PATH) && rm -rf build && mkdir build && cd build && \
-	cmake -DCMAKE_BUILD_TYPE=Release .. && \
-	make -j$$(nproc) && \
-	sudo make install
-	@echo "🎵 Compilation SDL_mixer depuis la source..."
-	cd $(MIXER_PATH) && rm -rf build && mkdir build && cd build && \
-	cmake -DCMAKE_BUILD_TYPE=Release .. && \
-	make -j$$(nproc) && \
-	sudo make install
-	sudo ldconfig
-	@echo "✅ Tout est installé !"
-
-install_full_ubuntu: install_NC install_ubuntu install_libs_source
-
 # Lancement de programme
 CC = gcc
 
@@ -59,7 +22,7 @@ create_build:
 run_principal: $(MAIN_EXE)/mainNC.c $(MAIN_EXE)/mainSDL.c $(SRC_DIR)/controller.c $(SRC_DIR)/model.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/view_ncurses.c
 	$(CC) $(SRC_DIR)/model.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/controller.c $(MAIN_EXE)/mainSDL.c -o $(EXE_FINAL_SDL) $(LIBS_SDL) $(LIBS_NC)
 	$(CC) $(SRC_DIR)/model.c $(SRC_DIR)/view_ncurses.c $(SRC_DIR)/view_sdl.c $(SRC_DIR)/controller.c $(MAIN_EXE)/mainNC.c -o $(EXE_FINAL_NC) $(LIBS_SDL) $(LIBS_NC) 
-	@echo "Compilation faite ! Tape 'make run' pour lancer tout le programme"
+	@echo "Compilation faite ! Tape 'make run_SDL' ou 'make run_NC' pour lancer tout le programme"
 
 run_SDL: all
 	SDL_AUDIO_DRIVER=pulseaudio ./$(EXE_FINAL_SDL)
@@ -75,3 +38,41 @@ clean:
 	@echo "Build supprime"
 
 .PHONY: all create_build run_principal run clean
+
+# Installation SDL3 et NC
+SDL_PATH = SDL
+MIXER_PATH = SDL_mixer
+
+install_NC:
+	sudo apt-get update
+	sudo apt-get install -y libncurses5-dev libncursesw5-dev
+	@echo "Installation de ncurses terminée !"
+
+install_ubuntu:
+	@echo "Installation dépendances Ubuntu..."
+	sudo apt-get update
+	sudo apt-get install -y build-essential cmake git libncurses5-dev libncursesw5-dev
+	# Dépendances audio/vidéo complètes
+	sudo apt-get install -y libasound2-dev libpulse-dev \
+	                        libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
+	                        libxi-dev libxinerama-dev libxss-dev libxtst-dev \
+	                        libxxf86vm-dev libxfixes-dev libxrender-dev \
+	                        libwayland-dev libxkbcommon-dev
+	sudo apt-get install -y libflac-dev libvorbis-dev libopus-dev libmpg123-dev libogg-dev
+
+install_libs_source:
+	@echo "Compilation SDL3 depuis la source..."
+	cd $(SDL_PATH) && rm -rf build && mkdir build && cd build && \
+	cmake -DCMAKE_BUILD_TYPE=Release .. && \
+	make -j$$(nproc) && \
+	sudo make install
+	@echo "Compilation SDL_mixer depuis la source..."
+	cd $(MIXER_PATH) && rm -rf build && mkdir build && cd build && \
+	cmake -DCMAKE_BUILD_TYPE=Release .. && \
+	make -j$$(nproc) && \
+	sudo make install
+	sudo ldconfig
+	@echo "Tout est installé !"
+
+install_full_ubuntu: install_NC install_ubuntu install_libs_source
+

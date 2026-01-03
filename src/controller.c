@@ -33,6 +33,9 @@ void handle_event(GameState *game, int *running) {
                     init_model(game, game->width, game->height, score_init);
                     game->currView = JEU;
                     game->isSDL = 1;
+                    if (game->track_music) {
+                        MIX_PlayTrack(game->track_music, -1);
+                    }
                 }
                 
                 // B. CLIC SUR INSTRUCTIONS 
@@ -67,6 +70,7 @@ void handle_event(GameState *game, int *running) {
                     
                     game->currView = JEU; 
                     game->isSDL = 1;      
+                    MIX_PlayTrack(game->track_music, -1);
                 }
                 
                 // CLIC SUR QUITTER
@@ -179,6 +183,7 @@ void handle_event(GameState *game, int *running) {
                     switch (event.key.key) {
                         case SDLK_ESCAPE:
                             game->currView = JEU;
+                            MIX_PlayTrack(game->track_music, -1);
                             break;
                         default:
                             break;

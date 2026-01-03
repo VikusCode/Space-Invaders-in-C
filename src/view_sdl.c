@@ -486,16 +486,20 @@ void cleanup_audio(GameState *game) {
 
 void draw_sdl_view(GameState *game) {
     if (game->currView == ACCUEIL) {
+        MIX_PauseTrack(game->track_music); 
         draw_menu_view(game);
     } else if (game->currView == INSTRUCTION) { 
         draw_instructions(game); 
-    }else if (game->currView == JEU) {     
+    }else if (game->currView == JEU) {   
         draw_game_view(game); 
     } else if (game->currView == MENU_JEU) { 
         draw_pause_menu(game); 
+        MIX_PauseTrack(game->track_music); 
     } else if (game->currView == MENU_GAGNE) {
         draw_win_view(game);       
+        MIX_PauseTrack(game->track_music); 
     } else if (game->currView == MENU_PERD) {
+        MIX_PauseTrack(game->track_music); 
         draw_lose_view(game);      
     }
     SDL_RenderPresent(rend);
