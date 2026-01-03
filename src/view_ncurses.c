@@ -160,11 +160,11 @@ static void draw_menu_accueil(void) {
     clear();
     
     attron(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
-    mvprintw(center_y - 6, center_x - 15, "╔═══════════════════════════════╗");
-    mvprintw(center_y - 5, center_x - 15, "║                               ║");
-    mvprintw(center_y - 4, center_x - 15, "║     SPACE INVADERS v1.0       ║");
-    mvprintw(center_y - 3, center_x - 15, "║                               ║");
-    mvprintw(center_y - 2, center_x - 15, "╚═══════════════════════════════╝");
+    mvprintw(center_y - 6, center_x - 15, "                                 ");
+    mvprintw(center_y - 5, center_x - 15, "                                 ");
+    mvprintw(center_y - 4, center_x - 15, "      SPACE INVADERS v1.0        ");
+    mvprintw(center_y - 3, center_x - 15, "                                 ");
+    mvprintw(center_y - 2, center_x - 15, "                                 ");
     attroff(COLOR_PAIR(COLOR_TITLE) | A_BOLD);
     
     attron(COLOR_PAIR(COLOR_MENU));
@@ -196,11 +196,11 @@ static void draw_menu_perd(GameState *game) {
     clear();
     
     attron(COLOR_PAIR(COLOR_GAME_OVER) | A_BOLD);
-    mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
-    mvprintw(center_y - 2, center_x - 12, "║                   ║");
-    mvprintw(center_y - 1, center_x - 12, "║   GAME  OVER !    ║");
-    mvprintw(center_y,     center_x - 12, "║                   ║");
-    mvprintw(center_y + 1, center_x - 12, "╚═══════════════════╝");
+    mvprintw(center_y - 3, center_x - 12, "                     ");
+    mvprintw(center_y - 2, center_x - 12, "                     ");
+    mvprintw(center_y - 1, center_x - 12, "    GAME  OVER !     ");
+    mvprintw(center_y,     center_x - 12, "                     ");
+    mvprintw(center_y + 1, center_x - 12, "                     ");
     attroff(COLOR_PAIR(COLOR_GAME_OVER) | A_BOLD);
     
     attron(COLOR_PAIR(COLOR_MENU));
@@ -220,11 +220,11 @@ static void draw_menu_gagne(GameState *game) {
     clear();
     
     attron(COLOR_PAIR(COLOR_WIN) | A_BOLD);
-    mvprintw(center_y - 3, center_x - 12, "╔═══════════════════╗");
-    mvprintw(center_y - 2, center_x - 12, "║                   ║");
-    mvprintw(center_y - 1, center_x - 12, "║   VICTOIRE !!!    ║");
-    mvprintw(center_y,     center_x - 12, "║                   ║");
-    mvprintw(center_y + 1, center_x - 12, "╚═══════════════════╝");
+    mvprintw(center_y - 3, center_x - 12, "                    ");
+    mvprintw(center_y - 2, center_x - 12, "                     ");
+    mvprintw(center_y - 1, center_x - 12, "    VICTOIRE !!!     ");
+    mvprintw(center_y,     center_x - 12, "                     ");
+    mvprintw(center_y + 1, center_x - 12, "                     ");
     attroff(COLOR_PAIR(COLOR_WIN) | A_BOLD);
     
     attron(COLOR_PAIR(COLOR_MENU));
@@ -242,9 +242,9 @@ static void draw_pause(void) {
     int center_x = COLS / 2;
     
     attron(COLOR_PAIR(COLOR_PAUSE) | A_BOLD);
-    mvprintw(center_y - 1, center_x - 8, "╔═══════════╗");
-    mvprintw(center_y,     center_x - 8, "║  PAUSE    ║");
-    mvprintw(center_y + 1, center_x - 8, "╚═══════════╝");
+    mvprintw(center_y - 1, center_x - 8, "             ");
+    mvprintw(center_y,     center_x - 8, "    PAUSE    ");
+    mvprintw(center_y + 1, center_x - 8, "             ");
     attroff(COLOR_PAIR(COLOR_PAUSE) | A_BOLD);
     
     attron(COLOR_PAIR(COLOR_MENU));
