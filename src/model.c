@@ -152,25 +152,23 @@ void update_enemies(GameState *game) {
         return;
     }
     cpt_alive = 0;
+    prec_vague = nbVagues;
     for (int i = 0; i < ENEMY_COLS * ENEMY_ROWS; i++) {
         if (game->enemies[i].alive == 1) {
             cpt_alive++;
         }
     }
     if (cpt_alive == 0) {
-            game->currView = MENU_GAGNE;
+        nbVagues++;
+        game->currView = MENU_GAGNE;
     }
-    if ((float)game->score / (ind_vit * 100.0) == 0) {
-        if(game->score != 0){
-            vitesse -= 0.2;
-            ind_vit += 1.0;
-        }
+    
+    if (nbVagues != prec_vague) {
+        vitesse -= 0.25; // Vitesse progressive
     }
-    //printf("%0.4f\n", vitesse);
 
-    // 1. GESTION VITESSE
     game->enemy_move_counter++;
-    if (game->enemy_move_counter < vitesse) return; // plus le chiffre est bas plus ca augmente la vitesse
+    if (game->enemy_move_counter < vitesse) return; 
     
     game->enemy_move_counter = 0;
     

@@ -44,6 +44,16 @@ clean:
 	rm -rf $(EXE_BUILD)
 	@echo "Build supprime"
 
+# --- TEST UNITAIRE ---
+EXE_TEST = $(BUILD_DIR)/run_tests
+
+# Compile test_model.c avec model.c (et les libs pour éviter les erreurs de lien)
+test: $(SRC_DIR)/model.c test/test_model.c
+	@echo "🧪 Compilation des tests..."
+	$(CC) $(CFLAGS) -DNCURSES tests/test_model.c $(SRC_DIR)/model.c -o $(EXE_TEST) $(LIBS_SDL)
+	@echo "🧪 Exécution des tests..."
+	@./$(EXE_TEST)
+
 # Installation SDL3 et NC
 SDL_PATH = SDL
 MIXER_PATH = SDL_mixer

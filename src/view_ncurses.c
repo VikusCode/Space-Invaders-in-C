@@ -229,7 +229,7 @@ static void draw_menu_gagne(GameState *game) {
     
     attron(COLOR_PAIR(COLOR_MENU));
     mvprintw(center_y + 3, center_x - 12, "Score final: %d", game->score);
-    mvprintw(center_y + 5, center_x - 18, "Appuyez sur R pour recommencer");
+    mvprintw(center_y + 5, center_x - 18, "Appuyez sur R pour continuer");
     mvprintw(center_y + 6, center_x - 15, "ou Q pour quitter");
     attroff(COLOR_PAIR(COLOR_MENU));
 }

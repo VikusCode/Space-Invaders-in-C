@@ -208,7 +208,6 @@ int handle_input_ncurses(GameState *game) {
                 game->currView = MENU_JEU;
             }
             break;
-            
         case MENU_JEU:
             if (ch == 'p' || ch == 'P') {
                 game->currView = JEU;
@@ -216,9 +215,14 @@ int handle_input_ncurses(GameState *game) {
             break;
             
         case MENU_PERD:
-        case MENU_GAGNE:
             if (ch == 'r' || ch == 'R') {
                 init_model(game, game->width, game->height, score_init);
+                game->currView = JEU;
+            }
+            break;
+        case MENU_GAGNE:
+            if (ch == 'r' || ch == 'R') {
+                init_model(game, game->width, game->height, game->score);
                 game->currView = JEU;
             }
             break;

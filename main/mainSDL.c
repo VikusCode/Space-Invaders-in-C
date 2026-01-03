@@ -39,7 +39,7 @@ int main()
         if (game.currView == JEU && !game.game_over) {
             update_bullets(&game);      
             update_enemies(&game);      
-            // enemy_shoot(&game); // je l'ai enleve car je voulais teste si les ennemis detruisaient les boucliers        
+            enemy_shoot(&game); 
             check_collisions(&game);
         }
         

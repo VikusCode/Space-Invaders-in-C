@@ -18,7 +18,8 @@
 #define MAX_SHIELD_BRICKS (MAX_SHIELDS * SHIELD_W * SHIELD_H)
 #define score_init 0
 static float vitesse = 25.0;
-static float ind_vit = 1.0;
+static int nbVagues = 1;
+static int prec_vague;
 
 // --- Structures ---
 typedef struct {
@@ -74,6 +75,7 @@ typedef struct {
 
     VueState currView;
     
+    // int nbVagues;
     int canShoot; //pour tirer une seule balle par une seule
     
     MIX_Mixer *mixerDevice;
