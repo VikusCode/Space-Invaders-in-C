@@ -336,5 +336,4 @@ void render_ncurses(GameState *game) {
     }
     usleep(16666);
     
-    refresh();
 }
