@@ -7,6 +7,21 @@
 #include "../include/view_ncurses.h"
 #include "../include/view_sdl.h"
 
+/**
+ * @file mainNC.c
+ * @brief Point d'entrée pour la version ncurses du jeu.
+ *
+ * Initialise ncurses, le modèle et lance la boucle principale de rendu
+ * et de traitement des entrées terminal.
+ */
+
+/**
+ * @brief Fonction principale pour la version ncurses.
+ *
+ * @param argc Nombre d'arguments (non utilisé).
+ * @param argv Tableau d'arguments (non utilisé).
+ * @return EXIT_SUCCESS en sortie normale.
+ */
 int main(int argc, char const *argv[])
 {
     GameState game;
@@ -19,13 +34,13 @@ int main(int argc, char const *argv[])
 
     int running = 1;
     while (running) {
-        // Affichage
+        /* Affichage */
         render_ncurses(&game);
         
-        // Entrées (Appel de ta nouvelle fonction dans controller.c)
+        /* Entrées */
         running = handle_input_ncurses(&game);
         
-        // Logique du jeu (seulement si on joue et pas en pause)
+        /* Logique du jeu (si en jeu) */
         if (game.currView == JEU) {
             update_bullets(&game);
             update_enemies(&game);
@@ -33,7 +48,7 @@ int main(int argc, char const *argv[])
             check_collisions(&game);
         }
         
-        napms(16); // ~60 FPS
+        napms(16); /* ~60 FPS */
     }
     
     cleanup_ncurses();

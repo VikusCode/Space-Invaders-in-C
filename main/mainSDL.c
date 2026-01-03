@@ -12,7 +12,20 @@
 #define GRID_WIDTH 80
 #define GRID_HEIGHT 40
 
-int main()
+/**
+ * @file mainSDL.c
+ * @brief Point d'entrée pour la version SDL du jeu.
+ *
+ * Initialise SDL (vidéo + audio), le modèle, la vue SDL et lance la
+ * boucle principale de traitement des événements et d'affichage.
+ */
+
+/**
+ * @brief Fonction principale pour la version SDL.
+ *
+ * @return EXIT_SUCCESS en cas de sortie normale, EXIT_FAILURE sinon.
+ */
+int main(void)
 {
     GameState game;
 
@@ -25,12 +38,10 @@ int main()
     game.isSDL = true; 
     init_model(&game, GRID_WIDTH, GRID_HEIGHT, score_init);
     
-    
     if (!init_sdl_view(&game)) return EXIT_FAILURE;
 
     if (!init_audio(&game)) printf("Attention: Pas de son\n"); 
 
-    
     int running = 1;
 
     while (running) {
@@ -45,10 +56,10 @@ int main()
         
         draw_sdl_view(&game);
         
-        SDL_Delay(16); // au plus c'est bas plus ca trace
+        SDL_Delay(16); /* ~60 FPS */
     }
 
-    cleanup_audio(&game); //nouvelle fonction ajoutee
+    cleanup_audio(&game);
     close_sdl_view();
 
     return EXIT_SUCCESS;

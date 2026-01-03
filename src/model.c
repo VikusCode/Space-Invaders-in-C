@@ -3,28 +3,28 @@
 #include "../include/model.h"
 #include "../include/view_ncurses.h"
 #include "../assets/sprite.h"
-
 /**
  * @file model.c
- * @brief Implémentation du modèle de jeu (logique, collisions, entités).
+ * @brief Logique du modèle du jeu (initialisation, mises à jour, collisions).
  *
- * Ce fichier contient l'initialisation de l'état du jeu et les
- * fonctions de mise à jour (mouvements, tirs, collisions).
+ * Contient les fonctions manipulant l'état du jeu : initialisation
+ * des entités, mise à jour des projectiles, comportement ennemi et
+ * détection des collisions.
  */
 
-/** Nombre d'ennemis encore en vie (compteur utilisé dans les mises à jour) */
+/** Compteur d'ennemis vivants. */
 int cpt_alive;
 
 /**
  * @brief Initialise l'état du jeu.
  *
- * Configure la grille, le joueur, les ennemis, les boucliers et les
- * variables de contrôle du jeu.
+ * Initialise le joueur, les ennemis, les boucliers, les projectiles
+ * et les variables de contrôle.
  *
- * @param game Pointeur vers la structure GameState à initialiser.
- * @param width Largeur logique de l'aire de jeu.
- * @param height Hauteur logique de l'aire de jeu.
- * @param score Score initial (valeur de départ).
+ * @param game Pointeur vers la structure GameState à initialiser
+ * @param width Largeur logique du terrain
+ * @param height Hauteur logique du terrain
+ * @param score Score initial
  */
 void init_model(GameState *game, int width, int height, int score) {
     game->width = width;
@@ -106,16 +106,13 @@ void init_model(GameState *game, int width, int height, int score) {
     game->enemy_move_counter = 0;
 }
 
-/**
- * @name Fonctions publiques du modèle
- * Fonctions manipulant l'état du jeu (joueur, ennemis, projectiles...).
- */
+// --- Fonctions du modèle ---
 
 /**
- * @brief Tente de tirer un projectile depuis la position du joueur.
+ * @brief Tire un projectile depuis le vaisseau du joueur.
  *
- * Si le joueur peut tirer (`canShoot == 0`), crée une balle active
- * au-dessus du vaisseau et déclenche éventuellement l'effet sonore.
+ * Crée une balle si le joueur peut tirer et joue l'effet sonore si
+ * disponible.
  *
  * @param game Pointeur vers l'état du jeu.
  */
@@ -139,7 +136,7 @@ void player_shoot(GameState *game) {
  * @brief Déplace le joueur horizontalement.
  *
  * @param game Pointeur vers l'état du jeu.
- * @param direction Déplacement (-1 pour gauche, +1 pour droite).
+ * @param direction Déplacement (-1 = gauche, +1 = droite).
  */
 void player_move(GameState *game, int direction) {
     int new_x = game->player.x + direction;
@@ -149,10 +146,9 @@ void player_move(GameState *game, int direction) {
 }
 
 /**
- * @brief Met à jour la position des projectiles (joueur et ennemis).
+ * @brief Met à jour les positions des projectiles (joueur et ennemis).
  *
- * Les projectiles du joueur se déplacent vers le haut, ceux des ennemis
- * vers le bas. Les projectiles sortant de l'aire de jeu sont désactivés.
+ * Désactive les projectiles qui sortent de l'aire de jeu.
  *
  * @param game Pointeur vers l'état du jeu.
  */
@@ -175,10 +171,10 @@ void update_bullets(GameState *game) {
 }
 
 /**
- * @brief Logique de tir des ennemis.
+ * @brief Gère la création de projectiles ennemis.
  *
- * Cette fonction gère la création de projectiles ennemis. Le comportement
- * exact (fréquence/choix du tireur) est implémenté ici.
+ * Sélectionne éventuellement un ennemi vivant et génère une balle
+ * ennemie en dessous de lui.
  *
  * @param game Pointeur vers l'état du jeu.
  */
@@ -189,7 +185,7 @@ void enemy_shoot(GameState *game) {
         if (game->enemies[i].alive) alive_indices[count++] = i;
     }
     
-    if (count > 0 && rand() % 45 == 0) {
+    if (count > 0 && rand() % 45 == 0) { // au plus tu augmentes le chiffre apres le % au plus il tire lentement 
         int shooter = alive_indices[rand() % count];
         for (int i = 0; i < MAX_ENEMY_BULLETS; i++) {
             if (!game->enemy_bullets[i].active) {
@@ -203,11 +199,10 @@ void enemy_shoot(GameState *game) {
 }
 
 /**
- * @brief Met à jour l'état des ennemis (mouvement et vérifications).
+ * @brief Met à jour l'état et le mouvement des ennemis.
  *
- * Gère la détection de fin de partie (victoire/défaite), le comportement
- * de déplacement du bloc d'ennemis (descente, inversion de direction),
- * ainsi que les collisions avec les boucliers et le joueur.
+ * Gère la détection de victoire/défaite, les collisions ennemis/boucliers
+ * et applique le déplacement collectif (descente / inversion).
  *
  * @param game Pointeur vers l'état du jeu.
  */
@@ -227,64 +222,73 @@ void update_enemies(GameState *game) {
         nbVagues++;
         game->currView = MENU_GAGNE;
     }
-
+    
     if (nbVagues != prec_vague) {
-        vitesse -= 0.25; /* Vitesse progressive */
+        vitesse -= 0.25; // Vitesse progressive
     }
 
     game->enemy_move_counter++;
-    if (game->enemy_move_counter < vitesse) return;
-
+    if (game->enemy_move_counter < vitesse) return; 
+    
     game->enemy_move_counter = 0;
-
-    int should_descend = 0;
+    
+    int should_descend = 0; // On initialise à Faux
 
     for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
         if (game->enemies[i].alive) {
+            // On regarde où l'ennemi serait à la prochaine étape
             int next_x = game->enemies[i].x + game->enemy_direction;
+
+            // Si on va à droite et qu'on touche le bord droit
             if (game->enemy_direction == 1 && next_x >= game->width) {
                 should_descend = 1;
-                break;
+                break; // Un seul ennemi suffit pour faire tourner tout le groupe
             }
+            
+            // Si on va à gauche et qu'on touche le bord gauche
             if (game->enemy_direction == -1 && next_x < 0) {
                 should_descend = 1;
                 break;
             }
         }
     }
-
-    /* Collisions (boucliers et joueur) */
+    
+    // 2. COLLISIONS (Boucliers et Joueur)
     for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
         if (game->enemies[i].alive) {
+            // A. COLLISION BOUCLIER
             for (int s = 0; s < MAX_SHIELD_BRICKS; s++) {
                 if (game->shields[s].active) {
-                    if (game->enemies[i].x == game->shields[s].x &&
+                    if (game->enemies[i].x == game->shields[s].x && 
                         game->enemies[i].y == game->shields[s].y) {
-                        game->shields[s].active = 0;
+                        game->shields[s].active = 0; 
                         game->enemies[i].alive = 1;
                     }
                 }
             }
+            // B. COLLISION JOUEUR
             if (game->enemies[i].y >= game->player.y) {
                 game->game_over = 1;
                 game->currView = MENU_PERD;
             }
         }
     }
-
-    /* Application du mouvement */
+    
+    // 3. APPLICATION DU MOUVEMENT
     if (should_descend) {
+        // CAS A : On a touché un mur -> On descend et on inverse
         game->enemy_direction *= -1;
         for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
             if (game->enemies[i].alive) {
                 game->enemies[i].y++;
                 if (game->enemies[i].y >= game->player.y) {
                     game->game_over = 1;
-                    game->currView = MENU_PERD;
+                    game->currView = MENU_PERD; 
                 }
             }
         }
     } else {
+        // CAS B : Tout droit
         for (int i = 0; i < ENEMY_ROWS * ENEMY_COLS; i++) {
             if (game->enemies[i].alive) game->enemies[i].x += game->enemy_direction;
         }
@@ -292,12 +296,12 @@ void update_enemies(GameState *game) {
 }
 
 /**
- * @brief Vérifie et applique toutes les collisions du jeu.
+ * @brief Vérifie et applique les collisions du jeu.
  *
- * - Balles joueur vs boucliers
- * - Balles ennemies vs boucliers
- * - Balles joueur vs ennemis
- * - Balles ennemies vs joueur
+ * - balles joueur vs boucliers
+ * - balles ennemies vs boucliers
+ * - balles joueur vs ennemis
+ * - balles ennemies vs joueur
  *
  * @param game Pointeur vers l'état du jeu.
  */
@@ -314,10 +318,10 @@ void check_collisions(GameState *game) {
                         game->bullets[i].y >= game->shields[s].y && 
                         game->bullets[i].y <  game->shields[s].y + 1) {
                         
-                            game->shields[s].active = 0; /* Détruit la brique */
-                            game->bullets[i].active = 0; /* Détruit la balle */
-                            game->canShoot = 0; /* le joueur peut tirer */
-                            break; /* Une balle ne casse qu'une brique à la fois */
+                        game->shields[s].active = 0; // Détruit la brique
+                        game->bullets[i].active = 0; // Détruit la balle
+                        game->canShoot = 0; // le joueur peut tirer
+                        break; // Une balle ne casse qu'une brique à la fois
                     }
                 }
             }

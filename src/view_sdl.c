@@ -9,12 +9,38 @@
 static SDL_Window *window = NULL;
 static SDL_Renderer *rend = NULL; 
 
+/**
+ * @file view_sdl.c
+ * @brief Vue SDL : rendu et gestion des vues pour la version SDL.
+ *
+ * Contient l'initialisation de la fenêtre/renderer, le dessin des
+ * différents écrans (menu, instructions, jeu) et la gestion audio.
+ */
+
+/**
+ * @brief Convertit des coordonnées fenêtre en coordonnées logiques.
+ *
+ * Convertit les coordonnées reçues par SDL en coordonnées
+ * logiques utilisées par le moteur de jeu.
+ *
+ * @param x Pointeur sur l'abscisse (modifiée en place).
+ * @param y Pointeur sur l'ordonnée (modifiée en place).
+ */
 void convert_mouse_coordinates(float *x, float *y) {
     if (rend) {
         SDL_RenderCoordinatesFromWindow(rend, *x, *y, x, y);
     }
 }
 
+/**
+ * @brief Initialise la vue SDL (fenêtre et renderer).
+ *
+ * Configure la présentation logique pour correspondre aux dimensions
+ * du jeu et crée la fenêtre plein écran.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ * @return int 1 si succès, 0 en cas d'erreur.
+ */
 int init_sdl_view(GameState *game) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         printf("Erreur SDL_Init : %s\n", SDL_GetError());
@@ -58,66 +84,72 @@ int init_sdl_view(GameState *game) {
     return 1; 
 }
 
+/**
+ * @brief Dessine l'écran d'accueil (boutons et titre).
+ *
+ * @param game Pointeur vers l'état du jeu.
+ */
 void draw_menu_view(GameState *game) {
     SDL_SetRenderDrawColor(rend, 10, 10, 40, 255);
     SDL_RenderClear(rend);
 
-    // --- DIMENSIONS ---
     float btn_w = 26.0f; 
     float btn_h = 6.0f;
     float gap = 2.0f;    
     
-    // Calcul pour 3 BOUTONS
     float total_h = (btn_h * 3) + (gap * 2);
     
     float start_y = (game->height - total_h) / 2;
     float btn_x = (game->width - btn_w) / 2;
 
-    // Positions Y
     float play_y = start_y;
     float instr_y = start_y + btn_h + gap;        
     float quit_y = start_y + (btn_h + gap) * 2;    
 
     float text_size = 0.35f; 
 
-    // 1. BOUTON JOUER (Vert)
+    // Bouton JOUER (Vert)
     SDL_SetRenderDrawColor(rend, 0, 200, 0, 255);
     SDL_FRect play_rect = {btn_x, play_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &play_rect);
     draw_text("JOUER", btn_x + 9.5f, play_y + 1.5f, text_size); 
 
-    // 2. BOUTON INSTRUCTIONS (Bleu)
+    // Bouton INSTRUCTIONS (Bleu)
     SDL_SetRenderDrawColor(rend, 0, 100, 255, 255);
     SDL_FRect instr_rect = {btn_x, instr_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &instr_rect);
-    draw_text("INSTRUCTIONS", btn_x + 3.0f, instr_y + 1.5f, text_size);
+    draw_text("INSTRUCTIONS", btn_x + 5.0f, instr_y + 1.5f, text_size);
 
-    // 3. BOUTON QUITTER (Rouge)
+    // Bouton QUITTER (Rouge)
     SDL_SetRenderDrawColor(rend, 200, 0, 0, 255);
     SDL_FRect quit_rect = {btn_x, quit_y, btn_w, btn_h};
     SDL_RenderFillRect(rend, &quit_rect);
     draw_text("QUITTER", btn_x + 8.0f, quit_y + 1.5f, text_size);
 
-    // Titre
+    // Nom du jeu en haut
     SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); // Blanc pour le titre
     draw_text("SPACE INVADERS", (game->width - (14 * 4 * 0.5)) / 2, 5.0f, 0.5f);
 
-    // --- NOUVEAU : MESSAGE EN BAS DE PAGE ---
+    // Message en bas
     SDL_SetRenderDrawColor(rend, 150, 150, 150, 255); // Gris clair
     float footer_size = 0.20f; 
     
-    // Le nouveau texte fait 49 caractères (espaces inclus)
-    // "Utilise ta souris ou clique sur entree pour jouer"
-    float msg_width = 49 * 4 * footer_size; // <--- J'ai remplacé 29 par 49 ici
+    float msg_width = 49 * 4 * footer_size; // calcul largeur du message avec le nombre de lettres
     
+    // Centrage horizontal
     float msg_x = (game->width - msg_width) / 2;
     float msg_y = game->height - 4.0f; 
-    
+
     draw_text("UTILISE TA SOURIS OU CLIQUE SUR ENTREE POUR JOUER", msg_x, msg_y, footer_size);
 }
 
+/**
+ * @brief Dessine l'écran d'instructions avec commandes et but du jeu.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ */
 void draw_instructions(GameState *game) {
-    // 1. Fond bleu nuit
+    // Fond Bleu foncé
     SDL_SetRenderDrawColor(rend, 10, 10, 40, 255);
     SDL_RenderClear(rend);
 
@@ -125,20 +157,17 @@ void draw_instructions(GameState *game) {
     float text_size = 0.3f;     // Taille du texte standard
     float title_size = 0.5f;    // Taille du titre
     
-    // --- NOUVELLES POSITIONS (PLUS HAUTES) ---
     float y_title = 2.0f;           // Titre tout en haut
     float y_start_cols = 8.0f;      // Les colonnes commencent bien plus haut
     
     float col_left_x = 5.0f;        // Marge gauche
     float col_right_x = cx + 2.0f;  // Marge droite (juste après le milieu)
 
-
-    // --- TITRE ---
+    // Titre INSTRUCTIONS 
     SDL_SetRenderDrawColor(rend, 255, 255, 0, 255); // Jaune
     draw_text("INSTRUCTIONS", cx - (12 * 4 * title_size) / 2, y_title, title_size);
 
-
-    // --- COLONNE GAUCHE : LES COMMANDES ---
+    // Colonne gauche : COMMANDES
     SDL_SetRenderDrawColor(rend, 0, 255, 255, 255); // Cyan
     float y_cmd = y_start_cols;
     
@@ -149,18 +178,18 @@ void draw_instructions(GameState *game) {
     draw_text("D POUR DROITE", col_left_x, y_cmd, text_size);
 
 
-    // --- COLONNE DROITE : BUT ET VIES ---
+    // Colonne droite : BUT DU JEU
     float y_right = y_start_cols;
 
-    // 1. LE BUT DU JEU (Blanc)
+    // Le but (Blanc)
     SDL_SetRenderDrawColor(rend, 255, 255, 255, 255); 
     draw_text("VOTRE BUT EST DE TUER", col_right_x, y_right, text_size);
     y_right += 3.0f;
     draw_text("LES ENNEMIS AU COMPLET", col_right_x, y_right, text_size);
     
-    y_right += 6.0f; // Espace un peu réduit pour être sûr que ça passe
+    y_right += 6.0f; 
 
-    // 2. LES VIES (Rouge clair)
+    // Les vies (Rouge)
     SDL_SetRenderDrawColor(rend, 255, 100, 100, 255); 
     float cursor = draw_text("VOUS AVEZ ", col_right_x, y_right, text_size);
     draw_number(3, cursor, y_right, text_size); 
@@ -168,9 +197,6 @@ void draw_instructions(GameState *game) {
     y_right += 3.0f;
     draw_text("NE LES GASPILLEZ PAS", col_right_x, y_right, text_size);
 
-
-    // --- PIED DE PAGE ---
-    // On le descend un peu plus bas (height - 8 au lieu de height - 12)
     
     // "Bonne chance terrien !" (Vert)
     SDL_SetRenderDrawColor(rend, 0, 255, 0, 255);

@@ -17,6 +17,13 @@
  * ============================================================================ */
 
 /**
+ * @file view_ncurses.c
+ * @brief Vue ncurses : dessin et affichage pour la version terminal.
+ *
+ * Contient les fonctions d'initialisation de ncurses, rendu et nettoyage.
+ */
+
+/**
  * @brief Affiche le joueur
  */
 static void draw_player(GameState *game) {
@@ -256,6 +263,12 @@ static void draw_pause(void) {
  * FONCTIONS PUBLIQUES
  * ============================================================================ */
 
+/**
+ * @brief Initialise la bibliothèque ncurses et les couleurs.
+ *
+ * Configure le terminal (mode cbreak, pas d'echo, touches spéciales,
+ * taille minimale) et initialise les paires de couleurs utilisées.
+ */
 void init_ncurses(void) {
     initscr();
     cbreak();
@@ -290,10 +303,20 @@ void init_ncurses(void) {
     }
 }
 
+/**
+ * @brief Restaure l'état du terminal et quitte ncurses.
+ */
 void cleanup_ncurses(void) {
     endwin();
 }
 
+/**
+ * @brief Effectue le rendu d'une frame en mode ncurses selon la vue.
+ *
+ * Affiche les menus, le HUD et les entités selon `game->currView`.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ */
 void render_ncurses(GameState *game) {
     erase();
     

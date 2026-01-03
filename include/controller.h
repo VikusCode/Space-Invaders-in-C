@@ -1,9 +1,24 @@
-#pragma once
-#include "../include/model.h"
-/*
-    La vue doit traduire ce qu'on va créer dans le modèle, le controleur doit mettre à jour le modèle 
-    Donc en gros, le modèle dépend des controles qui dépendent de la vue
-*/
+/**
+ * @file controller.h
+ * @brief Prototypes du contrôleur (gestion des événements et saisie).
+ */
 
+#pragma once
+
+#include "../include/model.h"
+
+/**
+ * @brief Traite les événements SDL et met à jour l'état du jeu.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ * @param running Pointeur vers le drapeau d'exécution (0 = arrêter).
+ */
 void handle_event(GameState *game, int *running);
+
+/**
+ * @brief Lit et traite l'entrée clavier en mode ncurses.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ * @return int 0 pour quitter, 1 pour continuer.
+ */
 int handle_input_ncurses(GameState *game);

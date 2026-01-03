@@ -8,6 +8,23 @@
 #include "../include/model.h"
 
 SDL_Event event;
+/**
+ * @file controller.c
+ * @brief Gestion des événements (SDL) et saisie ncurses.
+ *
+ * Fournit les fonctions de traitement des entrées pour les versions
+ * SDL et ncurses du jeu.
+ */
+
+/**
+ * @brief Traite les événements SDL et met à jour l'état du jeu.
+ *
+ * Gère les clics souris (menus) et les appuis de touches pour
+ * changer de vues, déplacer le joueur, tirer, ou quitter.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ * @param running Pointeur vers le drapeau d'exécution (0 = arrêter).
+ */
 void handle_event(GameState *game, int *running) {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
@@ -178,6 +195,14 @@ void handle_event(GameState *game, int *running) {
     } 
 }
 
+/**
+ * @brief Lit et traite l'entrée clavier en mode ncurses.
+ *
+ * Retourne 0 si l'utilisateur demande de quitter, 1 sinon.
+ *
+ * @param game Pointeur vers l'état du jeu.
+ * @return int 0 pour quitter, 1 pour continuer.
+ */
 int handle_input_ncurses(GameState *game) {
     int ch = getch();
     
