@@ -37,6 +37,7 @@ Le projet fonctionne sous Linux (testé sur Ubuntu/Debian et Fedora).
 
 ---
 
+README détaillé : compilation, dépendances (versions recommandées), exécution, commandes clavier, description de l’architecture MVC.
 ## 📥 Installation
 
 Le projet dispose d'un **Makefile** puissant qui gère l'installation des dépendances pour vous.
